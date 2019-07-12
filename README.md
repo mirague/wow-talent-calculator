@@ -42,3 +42,22 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Startup warning
+```
+Starting the development server...
+
+=============
+
+WARNING: You are currently running a version of TypeScript which is not officially supported by typescript-estree.
+
+You may find that it works just fine, or you may not.
+
+SUPPORTED TYPESCRIPT VERSIONS: >=3.2.1 <3.5.0
+
+YOUR TYPESCRIPT VERSION: 3.5.3
+
+Please only submit bug reports when using the officially supported version.
+
+=============
+```
