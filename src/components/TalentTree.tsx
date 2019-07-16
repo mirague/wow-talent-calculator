@@ -1,33 +1,38 @@
-import React from 'react'
-import { List }  from 'immutable'
+import React, { MouseEvent } from 'react'
+import { List, Map }  from 'immutable'
 import { TalentSlot } from './TalentSlot';
+import { getTreePointCount } from '../lib/tree';
+import { talentsBySpec, specNames } from '../data/talents';
 
 interface Props {
-  tree: TalentTree
+  specId: number
   spentPoints: List<number>
+  knownTalents: Map<number, number>
   onTalentPress: TalentClickHandler
 }
 
-export const TalentTree: React.FC<Props> = ({ tree, spentPoints, onTalentPress }) => {
-  const { talents } = tree
+export const TalentTree: React.FC<Props> = ({ specId, spentPoints, knownTalents, onTalentPress }) => {
+  const talents = Object.values(talentsBySpec[specId])
 
-  const handleTalentPress = (index) => {
-    return (e) => {
-      onTalentPress(index, 'add')
+  const handleTalentPress = (talentId: number) => {
+    return (e: MouseEvent) => {
+      onTalentPress(specId, talentId, e.shiftKey ? -1 : 1)
     }
   }
 
   return (
     <div className="tree">
-      <h2>{tree.name}</h2>
+      <h2>{specNames[specId]}</h2>
       {talents.map((talent, index) => 
         <TalentSlot 
-          key={index}
+          key={talent.id}
           talent={talent}
-          points={spentPoints.get(index, 0)}
-          onClick={handleTalentPress(index)}
+          points={knownTalents.get(talent.id, 0)}
+          onClick={handleTalentPress(talent.id)}
         />
       )}
+
+      Spent: {getTreePointCount(spentPoints)}
     </div>
   )
 }

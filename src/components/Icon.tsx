@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { FC } from 'react'
+import './Icon.scss'
 
-interface Props { 
+interface Props {
+  name: string
+  size?: 'small' | 'medium' | 'large'
 }
 
-export const Icon: React.FC<Props> = () => {
+export const Icon: FC<Props> = ({ name, size = 'medium', children }) => {
+  const url = `https://wow.zamimg.com/images/wow/icons/${size}/${name}.jpg`
+  const className = `icon icon--${size}`
+
   return (
-    <div className="icon">
-      icon
+    <div className={className} style={{ backgroundImage: `url(${url})`}}>
+      {children}
     </div>
   )
 }

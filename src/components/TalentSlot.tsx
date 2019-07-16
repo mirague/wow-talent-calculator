@@ -1,27 +1,29 @@
-import React from 'react'
+import React, { FC } from 'react'
 import './TalentSlot.scss'
+import { Icon } from './Icon'
+import { spells } from '../data/spells'
 
 interface Props {
   key: number
-  talent: Talent
+  talent: TalentData
   /** Points spent */
   points: number
   onClick?: (e: any) => void
 }
 
-export const TalentSlot: React.FC<Props> = (props) => {
+export const TalentSlot: FC<Props> = (props) => {
   const { talent, points } = props
   const requiredPointsSpent = talent.row * 5
 
   return (
     <div 
       className="talent"
-      title={talent.name}
+      title={talent.ranks[0].toString()}
       data-row={talent.row}
-      data-col={talent.column}
+      data-col={talent.col}
       onClick={props.onClick}
     >
-      <small>{talent.name}</small>
+      <Icon name={talent.icon} />
       <div className="talent__rank">{points}/{talent.ranks.length}</div>
     </div>
   )

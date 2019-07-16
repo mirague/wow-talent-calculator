@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import im from 'immutable'
+import { List, Map, fromJS } from 'immutable'
 import { TalentTree } from './TalentTree';
-import { setPointsInTree } from '../lib/tree';
+import { modifyPointsInTree, modifyKnownTalents } from '../lib/tree';
+import { talentsBySpec, specNames } from '../data/talents';
+import { classByName } from '../data/classes';
+import { number } from 'prop-types';
 
 const createTalent = (name: string, row: number, column: number, ranks: string | string[], type: Talent['type'] = 'talent'): Talent => {
   return { 
@@ -94,33 +97,41 @@ interface Props {
   pointString?: string // e.g. 2305302300--001
 }
 
-const initialSpentPoints: im.List<im.List<number>> = im.fromJS([
+const initialSpentPoints: List<List<number>> = fromJS([
   [], [], []
 ])
 
+const initMap = Map<number, number>()
 
-export const Calculator: React.FC<Props> = ({ forClass, pointString = '' }) => {
+export const Calculator: React.FC<Props> = ({ forClass = 'warlock', pointString = '' }) => {
+  const [knownTalents, setKnownTalents] = useState(initMap)
   const [spentPoints, setSpentPoints] = useState(initialSpentPoints)
-  const points = pointString.split('')
 
-  console.log({spentPoints})
+  const selectedClass = classByName[forClass]
 
-  const onTalentPress = (treeIndex, talentId, clickType) => {
-    console.log('onTalentPress')
-    const newSpentPoints = spentPoints.set(
-      treeIndex, 
-      setPointsInTree(spentPoints.get(treeIndex), talentId, 9)
-    )
-    setSpentPoints(newSpentPoints)
+  console.log(knownTalents)
+
+  const handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
+    console.log('onTalentPress', { specId, talentId, modifier })
+
+    const talent = talentsBySpec[specId][talentId]
+
+    
+    setKnownTalents(modifyKnownTalents(knownTalents, talent, modifier))
+
   }
   
   return (
     <div className="calculator">
-      <TalentTree 
-        tree={warlockTalents[0]}
-        spentPoints={spentPoints.get(0)} 
-        onTalentPress={(talentId, clickType) => onTalentPress(0, talentId, clickType)}
-      />
+      {selectedClass.specs.map((specId, specIndex) => (
+        <TalentTree
+          key={specId}
+          specId={specId}
+          knownTalents={knownTalents}
+          spentPoints={spentPoints.get(specIndex)} 
+          onTalentPress={handleTalentPress}
+        />
+      ))}
     </div>
   )
 }
