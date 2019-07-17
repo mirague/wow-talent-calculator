@@ -3743,3 +3743,12 @@ export const talentsBySpec: Root = {
     }
   }
 }
+
+export const talentToSpec: {[key: number]: number} = {} 
+for (let specId in talentsBySpec) {
+  for (let talentId in talentsBySpec[specId]) {
+    talentToSpec[talentId] = parseInt(specId, 10)
+  }
+}
+
+console.log(talentToSpec)

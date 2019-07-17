@@ -1,91 +1,102 @@
 import { List, Map, fromJS } from 'immutable'
+import { talentsBySpec, talentToSpec } from '../data/talents';
 
-/**
- * Sets proper values for a tree, filling in 0s in between.
- */
-export function setTalentPointsInTree(tree: List<number>, talentIndex: number, points: number): List<number> {
-  // Ensure all values until `index` are set, otherwise set to 0
-  for (let i = tree.size; i < talentIndex; i++) {
-    tree = tree.set(i, 0)
-  }
-  return tree.set(talentIndex, points)
-}
+export const MAX_POINTS = 51
 
 /**
  * Returns the overall points spent in the tree.
  */
-export function getTreePointCount(tree: List<number>): number {
-  return tree.reduce((reduction, value) => value + reduction, 0)
+export function getPointsInSpec(specId: number, known: Map<number, number>): number {
+  // TODO: Hard to test this method when referencing talents from a file. Improve this.
+  return Object.values(talentsBySpec[specId]).reduce((prev: number, current: TalentData) => {
+    return prev + known.get(current.id, 0)
+  }, 0)
 }
 
-export function canRemovePoint() {
-
+export function calcAvailablePoints(known: Map<number, number>): number {
+  return Math.max(0, MAX_POINTS - known.reduce((prev, current) => prev + current, 0))
 }
 
-export function canSetPoint() {
+/**
+ * Returns whether a talent's other talent requirements are met.
+ */
+export function calcMeetsRequirements(talent: TalentData, known: Map<number, number>): boolean {
+  if (talent.requires.length === 0) {
+    return true
+  }
+  return talent.requires.reduce((prev, current) => {
+    if (!prev) return false
+    return known.get(current.id, 0) >= current.qty
+  }, true)
+}
+
+/**
+ * Adds a single talent point to the Map, if possible.
+ */
+export const addTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
+  const currentPoints = known.get(talent.id, 0)
   
-}
-
-export const modifyPointsInTree = (tree: List<number>, talent: TalentData, talentIndex: number, modifier: 1 | -1): List<number> => {
-  const currentPoints = tree.get(talentIndex, 0)
-
-  // TODO: We should prevent reducing talent points on a row when it is a dependency for points already spent in the next row.
+  // Support for specific Talent dependency requirement.
+  if (talent.requires.length > 0 && !calcMeetsRequirements(talent, known)) {
+    return known
+  }
   
-  // TODO: Support for specific Talent dependency requirement.
-
-  // TODO: Spend a maximum of 51 points
-
+  // Spend a maximum of 51 points
+  if (calcAvailablePoints(known) === 0) {
+    return known
+  }
+  
   // Check we have the required amount of points spent in the tree for this talent
   const requiredPoints = talent.row * 5
-  const spentPointCount = getTreePointCount(tree)
-  if (requiredPoints > spentPointCount) return tree
-
-  let newPoints = currentPoints
-  if (modifier === 1) {
-    if (currentPoints === talent.ranks.length) return tree
-    newPoints = currentPoints + 1
-  } else if (modifier === -1) {
-    if (currentPoints === 0) return tree
-    newPoints = currentPoints - 1
+  const pointsInSpec = getPointsInSpec(talentToSpec[talent.id], known)
+  if (requiredPoints > pointsInSpec) {
+    return known
   }
-
-  return setTalentPointsInTree(tree, talentIndex, newPoints)
-}
-
-export const modifyKnownTalents = (known: Map<number, number>, talent: TalentData, modifier: 1 | -1): Map<number, number> => {
-  const currentPoints = known.get(talent.id, 0)
-
-  // TODO: We should prevent reducing talent points on a row when it is a dependency for points already spent in the next row.
   
-  // TODO: Support for specific Talent dependency requirement.
-
-  // TODO: Spend a maximum of 51 points
-
-  // TODO: Check we have the required amount of points spent in the tree for this talent
-  const requiredPoints = talent.row * 5
-  // const spentPointCount = known.get(talent.id, 0)
-  // if (requiredPoints > spentPointCount) return tree
-
-  let newPoints = currentPoints
-  if (modifier === 1) {
-    if (currentPoints === talent.ranks.length) return known
-    newPoints = currentPoints + 1
-  } else if (modifier === -1) {
-    if (currentPoints === 0) return known
-    newPoints = currentPoints - 1
+  // Reached the max rank?
+  if (currentPoints >= talent.ranks.length) {
+    return known
   }
 
-  return newPoints === 0 
-    ? known.remove(talent.id)
-    : known.set(talent.id, newPoints)
+  return known.set(talent.id, currentPoints + 1)
 }
 
+/**
+ * Removes a single talent point from the Map, if possible.
+ */
+export const removeTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
+  const currentPoints = known.get(talent.id, 0)
+  
+  // TODO: We should prevent reducing talent points on a row when it is a dependency for points already spent in the next row.
+
+  // Already no points for this talent
+  if (currentPoints === 0) {
+    return known
+  }
+
+  return currentPoints === 1 
+    ? known.remove(talent.id)
+    : known.set(talent.id, currentPoints - 1)
+}
+
+/**
+ * Either adds or removes a talent point based on the modifier.
+ */
+export const modifyTalentPoint = (known: Map<number, number>, talent: TalentData, modifier: 1 | -1): Map<number, number> => {
+  if (modifier === 1) {
+    return addTalentPoint(known, talent)
+  } else {
+    return removeTalentPoint(known, talent)
+  }
+}
+
+// TODO
 export function parsePointString(str: string): List<List<number>> {
   const list: Array<number[]> = []
   const trees = str.split('-')
 
   trees.map((stringForTree, index) => {
-    const points = stringForTree.split('').map(a => parseInt(a, 2))
+    const points = stringForTree.split('').map(a => parseInt(a, 10))
     list[index] = points
   })
 

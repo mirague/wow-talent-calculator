@@ -1,0 +1,64 @@
+
+.talent {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 2px;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+  }
+
+  small {
+    font-size: 8px;
+    line-height: 1em;
+  }
+
+  &--disabled {
+    filter: grayscale(100%)
+  }
+
+  &:not(&--disabled) {
+    cursor: pointer;
+  }
+
+  &--maxed {
+
+  }
+
+  $row-distance: 70px;
+
+  &[data-row="0"] { top: $row-distance; }
+  &[data-row="1"] { top: $row-distance * 2; }
+  &[data-row="2"] { top: $row-distance * 3; }
+  &[data-row="3"] { top: $row-distance * 4; }
+  &[data-row="4"] { top: $row-distance * 5; }
+  &[data-row="5"] { top: $row-distance * 6; }
+  &[data-row="6"] { top: $row-distance * 7; }
+
+  $col-distance-offset: 30px;
+  $col-distance: 50px;
+
+  &[data-col="0"] { left: $col-distance-offset; }
+  &[data-col="1"] { left: $col-distance-offset + ($col-distance * 1); }
+  &[data-col="2"] { left: $col-distance-offset + ($col-distance * 2); }
+  &[data-col="3"] { left: $col-distance-offset + ($col-distance * 3); }
+
+  &__points {
+    position: absolute;
+    padding: 1px 2px;
+    bottom: -2px;
+    right: -2px;
+    color: white;
+    font-size: 12px;
+    background: black;
+    border-radius: 2px;
+  }
+}

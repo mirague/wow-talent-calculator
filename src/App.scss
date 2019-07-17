@@ -2,44 +2,18 @@
   text-align: center;
 }
 
-.tree {
-  position: relative;
-  width: 400px;
-  height: 500px;
-  border: 1px solid black;
+.calculator {
 }
 
-.talent {
-  position: absolute;
-  width: 40px;
-  height: 40px;
+.trees {
+  display: flex;
+}
+
+.tree {
+  position: relative;
+  min-width: 300px;
+  height: 600px;
   border: 1px solid black;
-  border-radius: 2px;
-
-  small {
-    font-size: 8px;
-    line-height: 1em;
-  }
-
-  &[data-row="0"] { top: 70px; }
-  &[data-row="1"] { top: 140px; }
-  &[data-row="2"] { top: 210px; }
-  &[data-row="3"] { top: 280px; }
-  &[data-row="4"] { top: 400px; }
-
-  &[data-col="0"] { left: 10px; }
-  &[data-col="1"] { left: 60px; }
-  &[data-col="2"] { left: 110px; }
-  &[data-col="3"] { left: 160px; }
-
-  &__rank {
-    position: absolute;
-    padding: 1px 2px;
-    bottom: -2px;
-    right: -2px;
-    color: white;
-    font-size: 12px;
-    background: black;
-    border-radius: 2px;
-  }
+  background-size: cover;
+  background-position: center;
 }
