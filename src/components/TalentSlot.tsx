@@ -31,7 +31,7 @@ export const TalentSlot: FC<Props> = (props) => {
   const { talent, specId, knownTalents, availablePoints } = props
   const points = knownTalents.get(talent.id, 0)
   const showPoints = points > 0 || availablePoints > 0
-  const disabled = false // props.disabled || !showPoints || !isAvailable(talent, specId, knownTalents)
+  const disabled = props.disabled || !showPoints || !isAvailable(talent, specId, knownTalents)
 
   const cn = classNames('talent', {
     'talent--disabled': !!disabled,
