@@ -15,7 +15,7 @@ interface Props {
 
 const initMap = Map<number, number>()
 
-export const Calculator: React.FC<Props> = ({ forClass = 'warlock', pointString = '' }) => {
+export const Calculator: React.FC<Props> = ({ forClass, pointString = '' }) => {
   const [knownTalents, setKnownTalents] = useState(initMap)
   const selectedClass = classByName[forClass]
   const availablePoints = calcAvailablePoints(knownTalents)

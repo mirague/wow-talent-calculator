@@ -3750,5 +3750,3 @@ for (let specId in talentsBySpec) {
     talentToSpec[talentId] = parseInt(specId, 10)
   }
 }
-
-console.log(talentToSpec)
