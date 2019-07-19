@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
-import './App.scss';
-import { Calculator } from './components/Calculator';
+import React from 'react'
+import './App.scss'
+import { IndexRoute } from './components/IndexRoute'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
 const App: React.FC = () => {
-  const [selectedClass, setClass] = useState('warlock')
-
   return (
-    <div className="App">
-      {/* <ClassSelector 
-        onSelect={setClass}
-      /> */}
-      {selectedClass && (
-        <Calculator forClass={selectedClass} />
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        <Route path="/:selectedClass?/:points?" component={IndexRoute} />
+      </div>
+    </Router>
   );
 }
 

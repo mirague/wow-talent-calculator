@@ -1,36 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react'
 import { Map } from 'immutable'
-import { TalentTree } from './TalentTree';
+import { TalentTree } from './TalentTree'
 import { 
   modifyTalentPoint, 
   calcAvailablePoints
-} from '../lib/tree';
-import { talentsBySpec } from '../data/talents';
-import { classByName } from '../data/classes';
+} from '../lib/tree'
+import { talentsBySpec } from '../data/talents'
+import { classByName } from '../data/classes'
 
 interface Props {
-  forClass: string
-  pointString?: string // e.g. 2305302300--001
+  selectedClass: string
 }
 
 const initMap = Map<number, number>()
 
-export const Calculator: React.FC<Props> = ({ forClass, pointString = '' }) => {
-  const [knownTalents, setKnownTalents] = useState(initMap)
-  const selectedClass = classByName[forClass]
-  const availablePoints = calcAvailablePoints(knownTalents)
+// TODO: Wrap in "IndexRoute" or something similar to take care of the url params
+//       Calculator doesn't need to know about URL params
 
-  const handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
+export const Calculator: React.FC<Props> = ({ selectedClass }) => {
+  const [knownTalents, setKnownTalents] = useState(initMap)
+
+  const handleTalentPress = useCallback((specId: number, talentId: number, modifier: 1 | -1) => {
     const talent = talentsBySpec[specId][talentId]
-    setKnownTalents(
+    setKnownTalents(knownTalents =>
       modifyTalentPoint(knownTalents, talent, modifier)
     )
-  }
-  
+  }, [])
+
+  // Reset known talents when switching class
+  useEffect(() => {
+    setKnownTalents(initMap)
+  }, [selectedClass])
+
+  const classData = classByName[selectedClass]
+  const availablePoints = calcAvailablePoints(knownTalents)
+
   return (
     <div className="calculator">
       <div className="trees">
-        {selectedClass.specs.map((specId, specIndex) => (
+        {classData.specs.map((specId) => (
           <TalentTree
             key={specId}
             specId={specId}
