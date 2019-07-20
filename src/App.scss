@@ -1,21 +1,54 @@
-.App {
-  text-align: center;
+body {
+  background-color: #111;
 }
 
 .calculator {
+  
+  &__points {
+    color: white;
+    text-align: center;
+  }
 }
 
 .trees {
   display: flex;
+  justify-content: center;
 }
 
 .tree {
   position: relative;
-  min-width: 300px;
-  height: 600px;
-  border: 1px solid black;
-  background-size: cover;
-  background-position: center;
-
+  min-width: 300px;  
   color: white;
+  margin-right: 1em;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &__header {
+    text-align: center;
+  }
+
+  &__body {
+    position: relative;
+    height: 520px;
+    border: 1px solid black;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+.class-picker {
+  display: flex;
+
+  &__class {
+    margin-right: 2em;
+  }
+
+  // TODO: Make BEM 
+  a {
+    &.active {
+      font-weight: bold;
+    }
+  }
 }

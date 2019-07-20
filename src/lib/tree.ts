@@ -95,7 +95,7 @@ export function parsePointString(str: string): List<List<number>> {
   const list: Array<number[]> = []
   const trees = str.split('-')
 
-  trees.map((stringForTree, index) => {
+  trees.forEach((stringForTree, index) => {
     const points = stringForTree.split('').map(a => parseInt(a, 10))
     list[index] = points
   })

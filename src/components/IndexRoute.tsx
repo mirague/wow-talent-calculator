@@ -1,6 +1,6 @@
 import React from 'react'
 import { Calculator } from './Calculator'
-import { Link } from 'react-router-dom';
+import { ClassPicker } from './ClassPicker'
 
 interface Props {
   pointString?: string // e.g. 2305302300--001
@@ -8,28 +8,28 @@ interface Props {
   history: any
 }
 
-const ClassPicker = () => {
-  return <ul>
-    <li><Link to="/warlock">Warlock</Link></li>
-    <li><Link to="/paladin">Paladin</Link></li>
-  </ul>
-}
+export class IndexRoute extends React.PureComponent<Props> {
+  static whyDidYouRender = true
 
-export const IndexRoute: React.FC<Props> = ({ match, history }) => {
-  const { selectedClass, pointString } = match.params
+  render() {
+    const { match, history } = this.props
+    const { selectedClass, pointString } = match.params
   
-  if (!selectedClass) {
-    history.replace('/warlock')
-    return null
+    if (!selectedClass) {
+      history.replace('/warlock')
+      return null
+    }
+  
+    return (
+      <div className="index">
+        <ClassPicker />
+  
+        {selectedClass && 
+          <Calculator 
+            selectedClass={selectedClass}
+          />
+        }
+      </div>
+    )
   }
-
-  return (
-    <div className="index">
-      <ClassPicker />
-
-      {selectedClass && 
-        <Calculator selectedClass={selectedClass} />
-      }
-    </div>
-  )
 }

@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 if (process.env.NODE_ENV !== 'production') {
-  const whyDidYouRender = require('@welldone-software/why-did-you-render')
+  const whyDidYouRender = require('@welldone-software/why-did-you-render/dist/no-classes-transpile/umd/whyDidYouRender.min.js')
   whyDidYouRender(React)
 }
 

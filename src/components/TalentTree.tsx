@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { TalentSlot } from './TalentSlot';
 import { getPointsInSpec } from '../lib/tree';
@@ -14,32 +14,40 @@ interface Props {
 export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoints, onTalentPress }) => {
   const talents = Object.values(talentsBySpec[specId])
 
-  const handleTalentPress = useCallback((talentId: number, modifier: 1 | -1) => {
-    return (e: MouseEvent) => {
-      onTalentPress(specId, talentId, modifier)
-    }
-  }, [specId, onTalentPress])
+  const handleClick = useCallback(
+    (talentId) => onTalentPress(specId, talentId, 1), 
+    [specId, onTalentPress]
+  )
+  const handleRightClick = useCallback(
+    (talentId) => onTalentPress(specId, talentId, -1), 
+    [specId, onTalentPress]
+  )
 
-  const style = { 
+  const bodyStyle = { 
     backgroundImage: `url("https://wow.zamimg.com/images/wow/talents/backgrounds/classic/${specId}.jpg")`
   }
 
   return (
-    <div className="tree" style={style}>
-      <h2>{specNames[specId]} ({getPointsInSpec(specId, knownTalents)})</h2>
-      {talents.map((talent, index) => 
-        <TalentSlot 
-          key={talent.id}
-          specId={specId}
-          talent={talent}
-          availablePoints={availablePoints}
-          knownTalents={knownTalents}
-          onClick={handleTalentPress(talent.id, 1)}
-          onRightClick={handleTalentPress(talent.id, -1)}
-        />
-      )}
+    <div className="tree">
+      <div className="tree__header">
+        <h3>{specNames[specId]} ({getPointsInSpec(specId, knownTalents)})</h3>
+      </div>
+
+      <div className="tree__body" style={bodyStyle}>
+        {talents.map((talent) => 
+          <TalentSlot 
+            key={talent.id}
+            specId={specId}
+            talent={talent}
+            availablePoints={availablePoints}
+            knownTalents={knownTalents}
+            onClick={handleClick}
+            onRightClick={handleRightClick}
+          />
+        )}
+      </div>
     </div>
   )
 }
 
-(TalentTree as any).whyDidYouRender = true
+;(TalentTree as any).whyDidYouRender = true

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React from 'react'
 import { Map } from 'immutable'
 import { TalentTree } from './TalentTree'
 import { 
@@ -12,48 +12,56 @@ interface Props {
   selectedClass: string
 }
 
-const initMap = Map<number, number>()
+const EMPTY_TALENTS = Map<number, number>()
 
-// TODO: Wrap in "IndexRoute" or something similar to take care of the url params
-//       Calculator doesn't need to know about URL params
+export class Calculator extends React.PureComponent<Props> {
+  static whyDidYouRender = true
 
-export const Calculator: React.FC<Props> = ({ selectedClass }) => {
-  const [knownTalents, setKnownTalents] = useState(initMap)
+  state = {
+    knownTalents: EMPTY_TALENTS
+  }
 
-  const handleTalentPress = useCallback((specId: number, talentId: number, modifier: 1 | -1) => {
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.selectedClass !== this.props.selectedClass) {
+      this.setState({ 
+        knownTalents: EMPTY_TALENTS 
+      })
+    }
+  }
+  
+  handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
     const talent = talentsBySpec[specId][talentId]
-    setKnownTalents(knownTalents =>
-      modifyTalentPoint(knownTalents, talent, modifier)
+    this.setState({ 
+      knownTalents: modifyTalentPoint(this.state.knownTalents, talent, modifier)
+    })
+  }
+
+  render() {
+    const { selectedClass } = this.props
+    const { knownTalents } = this.state
+
+    const classData = classByName[selectedClass]
+    const availablePoints = calcAvailablePoints(knownTalents)
+
+    return (
+      <div className="calculator">
+        <div className="trees">
+          {classData.specs.map((specId) => (
+            <TalentTree
+              key={specId}
+              specId={specId}
+              availablePoints={availablePoints}
+              knownTalents={knownTalents}
+              onTalentPress={this.handleTalentPress}
+            />
+          ))}
+        </div>
+
+        <div className="calculator__points">
+          Points: {availablePoints}
+        </div>
+      </div>
     )
-  }, [])
-
-  // Reset known talents when switching class
-  useEffect(() => {
-    setKnownTalents(initMap)
-  }, [selectedClass])
-
-  const classData = classByName[selectedClass]
-  const availablePoints = calcAvailablePoints(knownTalents)
-
-  return (
-    <div className="calculator">
-      <div className="trees">
-        {classData.specs.map((specId) => (
-          <TalentTree
-            key={specId}
-            specId={specId}
-            availablePoints={availablePoints}
-            knownTalents={knownTalents}
-            onTalentPress={handleTalentPress}
-          />
-        ))}
-      </div>
-
-      <div className="calculator__points">
-        Points: {availablePoints}
-      </div>
-    </div>
-  )
+  }
 }
 
-(Calculator as any).whyDidYouRender = true

@@ -1,3 +1,8 @@
+$row-distance: 70px;
+
+@mixin rowStyle($rowNr) {
+  top: 30px + (($rowNr) * 70px);
+}
 
 .talent {
   position: absolute;
@@ -33,18 +38,15 @@
 
   }
 
-  $row-distance: 70px;
+  @for $i from 0 through 6 {
+    &[data-row="#{$i}"] {
+      @include rowStyle($i)
+    }
+  }
 
-  &[data-row="0"] { top: $row-distance; }
-  &[data-row="1"] { top: $row-distance * 2; }
-  &[data-row="2"] { top: $row-distance * 3; }
-  &[data-row="3"] { top: $row-distance * 4; }
-  &[data-row="4"] { top: $row-distance * 5; }
-  &[data-row="5"] { top: $row-distance * 6; }
-  &[data-row="6"] { top: $row-distance * 7; }
 
-  $col-distance-offset: 30px;
-  $col-distance: 50px;
+  $col-distance-offset: 44px;
+  $col-distance: 56px;
 
   &[data-col="0"] { left: $col-distance-offset; }
   &[data-col="1"] { left: $col-distance-offset + ($col-distance * 1); }

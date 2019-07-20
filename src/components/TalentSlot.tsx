@@ -2,7 +2,6 @@ import './TalentSlot.scss'
 import React, { FC } from 'react'
 import { Icon } from './Icon'
 import classNames from 'classnames'
-import { spells } from '../data/spells'
 import { Map } from 'immutable';
 import { getPointsInSpec, calcMeetsRequirements } from '../lib/tree';
 
@@ -14,8 +13,13 @@ interface Props {
   knownTalents: Map<number, number>
   /** Disabled override */
   disabled?: boolean
-  onClick?: (e: any) => void
-  onRightClick?: (e: any) => void
+  onClick?: (talentId: number) => void
+  onRightClick?: (talentId: number) => void
+}
+
+const defaultProps: Partial<Props> = {
+  onClick: () => undefined,
+  onRightClick: () => undefined
 }
 
 const isAvailable = (talent: TalentData, specId: number, knownTalents: Map<number, number>): boolean => {
@@ -39,7 +43,7 @@ export const TalentSlot: FC<Props> = (props) => {
   })
 
   const handleContextMenu = (e) => {
-    if (props.onRightClick) props.onRightClick(e)
+    if (props.onRightClick) props.onRightClick(talent.id)
     e.preventDefault()
     return false
   }
@@ -50,7 +54,7 @@ export const TalentSlot: FC<Props> = (props) => {
       title={talent.ranks[0].toString()}
       data-row={talent.row}
       data-col={talent.col}
-      onClick={!disabled ? props.onClick : () => {}}
+      onClick={!disabled ? () => props.onClick(talent.id) : () => {}}
       onContextMenu={handleContextMenu}
     >
       <Icon name={talent.icon} />
@@ -62,4 +66,6 @@ export const TalentSlot: FC<Props> = (props) => {
   )
 }
 
-(TalentSlot as any).whyDidYouRender = true
+TalentSlot.defaultProps = defaultProps
+
+// ;(TalentSlot as any).whyDidYouRender = true
