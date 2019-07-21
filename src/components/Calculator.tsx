@@ -50,7 +50,7 @@ export class Calculator extends React.PureComponent<Props> {
     this.setState({ knownTalents: newKnownTalents })
 
     const pointString = encodeKnownTalents(newKnownTalents, selectedClass)
-    this.props.history.replace(`/${selectedClass}/${pointString}`)
+    this.props.history.replace(`/${selectedClass}` + (pointString ? `/${pointString}` : ''))
   }
 
   render() {
