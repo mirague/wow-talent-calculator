@@ -3744,9 +3744,14 @@ export const talentsBySpec: Root = {
   }
 }
 
-export const talentToSpec: {[key: number]: number} = {} 
+export const talentsById: {[key: number]: TalentData} = {}
+export const talentsBySpecArray: {[key: number]: TalentData[]} = {}
+export const talentToSpec: {[key: number]: number} = {}
+
 for (let specId in talentsBySpec) {
   for (let talentId in talentsBySpec[specId]) {
+    talentsById[talentId] = talentsBySpec[specId][talentId]
+    talentsBySpecArray[specId] = Object.values(talentsBySpec[specId])
     talentToSpec[talentId] = parseInt(specId, 10)
   }
 }

@@ -1,7 +1,8 @@
 import { List, Map, fromJS } from 'immutable'
-import { talentsBySpec, talentToSpec } from '../data/talents';
+import { talentsBySpec, talentToSpec, talentsById } from '../data/talents';
 
 export const MAX_POINTS = 51
+export const MAX_ROWS = 7
 
 /**
  * Returns the overall points spent in the tree.
@@ -36,13 +37,18 @@ export function calcMeetsRequirements(talent: TalentData, known: Map<number, num
 export const addTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
   const currentPoints = known.get(talent.id, 0)
   
-  // Support for specific Talent dependency requirement.
-  if (talent.requires.length > 0 && !calcMeetsRequirements(talent, known)) {
+  // Reached the max rank?
+  if (currentPoints >= talent.ranks.length) {
+    return known
+  }
+
+  // Spend a maximum of 51 points
+  if (calcAvailablePoints(known) === 0) {
     return known
   }
   
-  // Spend a maximum of 51 points
-  if (calcAvailablePoints(known) === 0) {
+  // Support for specific Talent dependency requirement.
+  if (talent.requires.length > 0 && !calcMeetsRequirements(talent, known)) {
     return known
   }
   
@@ -50,11 +56,6 @@ export const addTalentPoint = (known: Map<number, number>, talent: TalentData): 
   const requiredPoints = talent.row * 5
   const pointsInSpec = getPointsInSpec(talentToSpec[talent.id], known)
   if (requiredPoints > pointsInSpec) {
-    return known
-  }
-  
-  // Reached the max rank?
-  if (currentPoints >= talent.ranks.length) {
     return known
   }
 
@@ -66,13 +67,41 @@ export const addTalentPoint = (known: Map<number, number>, talent: TalentData): 
  */
 export const removeTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
   const currentPoints = known.get(talent.id, 0)
-  
-  // TODO: We should prevent reducing talent points on a row when it is a dependency for points already spent in the next row.
+  const specId = talentToSpec[talent.id]
 
-  // Already no points for this talent
+  // No points to reduce for this talent
   if (currentPoints === 0) {
     return known
   }
+  
+  let highestRow = 0
+  let cumulativePointsPerRow = {}
+  known.forEach((points, talentId) => {
+    const t = talentsBySpec[specId][talentId]
+    if (t) {
+      highestRow = t.row > highestRow ? t.row : highestRow
+      for (let row = t.row; row < MAX_ROWS; row++) {
+        cumulativePointsPerRow[row] = (cumulativePointsPerRow[row] || 0) + points
+      }
+    }
+  })
+
+  // Check if removing this talent would not break the requirements for talents spent in later rows
+  const pointsUntilHighestRow = cumulativePointsPerRow[highestRow - 1]
+  const targetPointsHighestRow = highestRow * 5
+  if (talent.row < highestRow && pointsUntilHighestRow - 1 < targetPointsHighestRow) {
+    return known
+  }
+
+  // TODO: Prevent if another talent depends on this 
+  // const isDependency = known.reduce((prev, current, key) => {
+  //   if (prev) return prev
+  //   const t = talentsBySpec[specId][key]
+  //   if (t.requires.length === 0) {
+  //     return false
+  //   }
+  //   t.requires.map((d) => d.id === talent.id ? d : undefined)
+  // }, false)
 
   return currentPoints === 1 
     ? known.remove(talent.id)

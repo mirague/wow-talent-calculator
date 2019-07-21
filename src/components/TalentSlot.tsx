@@ -68,4 +68,4 @@ export const TalentSlot: FC<Props> = (props) => {
 
 TalentSlot.defaultProps = defaultProps
 
-// ;(TalentSlot as any).whyDidYouRender = true
+;(TalentSlot as any).whyDidYouRender = true
