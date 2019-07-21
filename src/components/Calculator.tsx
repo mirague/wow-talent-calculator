@@ -3,16 +3,28 @@ import { Map } from 'immutable'
 import { TalentTree } from './TalentTree'
 import { 
   modifyTalentPoint, 
-  calcAvailablePoints
+  calcAvailablePoints,
+  encodeKnownTalents
 } from '../lib/tree'
 import { talentsBySpec } from '../data/talents'
 import { classByName } from '../data/classes'
+import { History } from 'history'
 
 interface Props {
   selectedClass: string
+  history: History
 }
 
+// const EMPTY_TALENTS = Map<number, number>()
 const EMPTY_TALENTS = Map<number, number>()
+  // .set(30, 5)
+  // .set(26, 5)
+  // .set(34, 5)
+  // .set(28, 2)
+  // .set(27, 3)
+  // .set(33, 1)
+  // .set(29, 1)
+  // .set(32, 1)
 
 export class Calculator extends React.PureComponent<Props> {
   static whyDidYouRender = true
@@ -30,10 +42,15 @@ export class Calculator extends React.PureComponent<Props> {
   }
   
   handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
+    const { selectedClass } = this.props
     const talent = talentsBySpec[specId][talentId]
-    this.setState({ 
-      knownTalents: modifyTalentPoint(this.state.knownTalents, talent, modifier)
-    })
+    console.log('Clicked talent: ' + talentId)
+
+    const newKnownTalents = modifyTalentPoint(this.state.knownTalents, talent, modifier)
+    this.setState({ knownTalents: newKnownTalents })
+
+    const pointString = encodeKnownTalents(newKnownTalents, selectedClass)
+    this.props.history.replace(`/${selectedClass}/${pointString}`)
   }
 
   render() {

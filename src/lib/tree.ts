@@ -1,5 +1,10 @@
 import { List, Map, fromJS } from 'immutable'
-import { talentsBySpec, talentToSpec, talentsById } from '../data/talents';
+import { 
+  talentsBySpec, 
+  talentToSpec, 
+  talentsBySpecArray 
+} from '../data/talents';
+import { classByName } from '../data/classes'
 
 export const MAX_POINTS = 51
 export const MAX_ROWS = 7
@@ -128,4 +133,44 @@ export function parsePointString(str: string): List<List<number>> {
   })
 
   return fromJS(list)
+}
+
+/**
+ * Encodes a Map of known talents into a URL-friendly string.
+ */
+export function encodeKnownTalents(known: Map<number, number>, className: string): string {
+  let string = ''
+  const { specs } = classByName[className]
+  for (let i = 0; i < specs.length; i++) {
+    const specId = specs[i]
+    const talents = talentsBySpecArray[specId].sort((a, b) => {
+      if (a.row === b.row) {
+        return a.col - b.col
+      }
+      return a.row - b.row
+    })
+    string += i > 0 ? '-' : ''
+    string += removeTrailingCharacters(
+      talents.map((talent) => known.get(talent.id, 0)).join(''),
+      '0'
+    )
+  }
+  return removeTrailingCharacters(string, '-')
+}
+
+/**
+ * Decodes a string of points into a Map of talents.
+ */
+export function decodeKnownTalents(pointString: string, className: string): Map<number, number> {
+  return Map()
+}
+
+/**
+ * Removes repeated characters from the end of a string.
+ */
+function removeTrailingCharacters(str: string, char: string): string {
+  while (str[str.length - 1] === char) {
+    str = str.slice(0, -1)
+  }
+  return str
 }

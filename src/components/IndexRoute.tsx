@@ -15,7 +15,7 @@ export class IndexRoute extends React.PureComponent<Props> {
   static whyDidYouRender = true
 
   render() {
-    const { match } = this.props
+    const { match, history } = this.props
     const { selectedClass, pointString } = match.params
   
     return (
@@ -23,7 +23,10 @@ export class IndexRoute extends React.PureComponent<Props> {
         <ClassPicker selected={selectedClass} />
   
         {selectedClass && 
-          <Calculator selectedClass={selectedClass} />
+          <Calculator 
+            selectedClass={selectedClass} 
+            history={history}
+          />
         }
       </div>
     )
