@@ -1,10 +1,3 @@
-interface ClassData {
-  id: number
-  name: string
-  icon: string
-  specs: number[]
-}
-
 export const classes: ClassData[] = [
   { 
     id: 1,

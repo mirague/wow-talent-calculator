@@ -25,9 +25,9 @@ export function calcMeetsRequirements(talent: TalentData, known: Map<number, num
   if (talent.requires.length === 0) {
     return true
   }
-  return talent.requires.reduce((prev, current) => {
+  return talent.requires.reduce((prev, req) => {
     if (!prev) return false
-    return known.get(current.id, 0) >= current.qty
+    return known.get(req.id, 0) >= req.qty
   }, true)
 }
 
@@ -74,11 +74,14 @@ export const removeTalentPoint = (known: Map<number, number>, talent: TalentData
     return known
   }
   
+  let isDependency = false
   let highestRow = 0
   let cumulativePointsPerRow = {}
+
   known.forEach((points, talentId) => {
     const t = talentsBySpec[specId][talentId]
     if (t) {
+      isDependency = isDependency || t.requires.some((req) => req.id === talent.id)
       highestRow = t.row > highestRow ? t.row : highestRow
       for (let row = t.row; row < MAX_ROWS; row++) {
         cumulativePointsPerRow[row] = (cumulativePointsPerRow[row] || 0) + points
@@ -93,15 +96,10 @@ export const removeTalentPoint = (known: Map<number, number>, talent: TalentData
     return known
   }
 
-  // TODO: Prevent if another talent depends on this 
-  // const isDependency = known.reduce((prev, current, key) => {
-  //   if (prev) return prev
-  //   const t = talentsBySpec[specId][key]
-  //   if (t.requires.length === 0) {
-  //     return false
-  //   }
-  //   t.requires.map((d) => d.id === talent.id ? d : undefined)
-  // }, false)
+  // Prevent if another talent depends on this 
+  if (isDependency) {
+    return known
+  }
 
   return currentPoints === 1 
     ? known.remove(talent.id)

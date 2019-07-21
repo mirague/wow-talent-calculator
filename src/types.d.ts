@@ -5,6 +5,13 @@ interface TalentTree {
   talents: Talent[]
 }
 
+interface ClassData {
+  id: number
+  name: string
+  icon: string
+  specs: number[]
+}
+
 interface TalentData {
   /** ID for the Talent */
   id: number

@@ -3,7 +3,6 @@ body {
 }
 
 .calculator {
-  
   &__points {
     color: white;
     text-align: center;
@@ -40,15 +39,26 @@ body {
 
 .class-picker {
   display: flex;
+  justify-content: center;
 
   &__class {
     margin-right: 2em;
-  }
+    opacity: .8;
 
-  // TODO: Make BEM 
-  a {
-    &.active {
-      font-weight: bold;
+    &:hover {
+      opacity: 1;
+    }
+
+    &--active {
+      opacity: 1;
+    }
+
+    &--inactive {
+      opacity: .4;
+
+      &:hover {
+        opacity: .6;
+      }
     }
   }
 }
