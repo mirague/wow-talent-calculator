@@ -1,5 +1,6 @@
 body {
   background-color: #111;
+  font-family: Verdana;
 }
 
 .calculator {
@@ -19,6 +20,7 @@ body {
   min-width: 300px;  
   color: white;
   margin-right: 1em;
+  background-color: #111;
 
   &:last-child {
     margin-right: 0;
@@ -26,6 +28,11 @@ body {
 
   &__header {
     text-align: center;
+
+    h3 {
+      margin-top: .75em;
+      margin-bottom: .75em;
+    }
   }
 
   &__body {
@@ -40,10 +47,14 @@ body {
 .class-picker {
   display: flex;
   justify-content: center;
+  list-style: none;
+  margin-top: 2em;
+  margin-bottom: 2em;
 
   &__class {
-    margin-right: 2em;
+    margin-right: 1em;
     opacity: .8;
+    transition: all .1s ease-out;
 
     &:hover {
       opacity: 1;
@@ -57,7 +68,7 @@ body {
       opacity: .4;
 
       &:hover {
-        opacity: .6;
+        opacity: .5;
       }
     }
   }

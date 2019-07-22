@@ -37,9 +37,14 @@ export const TalentSlot: FC<Props> = (props) => {
   const showPoints = points > 0 || availablePoints > 0
   const disabled = props.disabled || !showPoints || !isAvailable(talent, specId, knownTalents)
 
-  const cn = classNames('talent', {
+  const containerClassNames = classNames('talent', {
     'talent--disabled': !!disabled,
-    'talent--maxed': points >= talent.ranks.length
+    'talent--available': !disabled && points < talent.ranks.length,
+    'talent--maxed': points >= talent.ranks.length || (points > 0 && availablePoints === 0)
+  })
+
+  const pointsClassNames = classNames('point-label', {
+    'point-label--enabled': !disabled
   })
 
   const handleContextMenu = (e) => {
@@ -50,17 +55,21 @@ export const TalentSlot: FC<Props> = (props) => {
 
   return (
     <div 
-      className={cn}
+      className={containerClassNames}
       title={talent.ranks[0].toString()}
       data-row={talent.row}
       data-col={talent.col}
       onClick={!disabled ? () => props.onClick(talent.id) : () => {}}
       onContextMenu={handleContextMenu}
     >
-      <Icon name={talent.icon} />
+      <div className="talent__status" />
+      <Icon name={talent.icon} size="medium" />
 
-      {showPoints && 
-        <div className="talent__points">{points}/{talent.ranks.length}</div>
+      {showPoints && !disabled &&
+        <div className={pointsClassNames}>
+          {points}
+          /{talent.ranks.length}
+        </div>
       }
     </div>
   )

@@ -13,9 +13,9 @@ import { History } from 'history'
 interface Props {
   selectedClass: string
   history: History
+  initialTalents?: Map<number, number>
 }
 
-// const EMPTY_TALENTS = Map<number, number>()
 const EMPTY_TALENTS = Map<number, number>()
   // .set(30, 5)
   // .set(26, 5)
@@ -33,6 +33,13 @@ export class Calculator extends React.PureComponent<Props> {
     knownTalents: EMPTY_TALENTS
   }
 
+  componentDidMount() {
+    if (this.props.initialTalents) {
+      this.setState({ knownTalents: this.props.initialTalents })
+      this.updateURL(this.props.initialTalents)
+    }
+  }
+
   componentDidUpdate(prevProps: Props) {
     if (prevProps.selectedClass !== this.props.selectedClass) {
       this.setState({ 
@@ -40,17 +47,22 @@ export class Calculator extends React.PureComponent<Props> {
       })
     }
   }
+
+  updateURL(knownTalents: Map<number, number>) {
+    const { selectedClass } = this.props
+    const pointString = encodeKnownTalents(knownTalents, selectedClass)
+    this.props.history.replace(`/${selectedClass}` + (pointString ? `/${pointString}` : ''))
+  }
   
   handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
-    const { selectedClass } = this.props
     const talent = talentsBySpec[specId][talentId]
     console.log('Clicked talent: ' + talentId)
 
     const newKnownTalents = modifyTalentPoint(this.state.knownTalents, talent, modifier)
+    if (newKnownTalents !== this.state.knownTalents) {
+      this.updateURL(newKnownTalents)
+    }
     this.setState({ knownTalents: newKnownTalents })
-
-    const pointString = encodeKnownTalents(newKnownTalents, selectedClass)
-    this.props.history.replace(`/${selectedClass}` + (pointString ? `/${pointString}` : ''))
   }
 
   render() {
@@ -76,6 +88,11 @@ export class Calculator extends React.PureComponent<Props> {
 
         <div className="calculator__points">
           Points: {availablePoints}
+        </div>
+
+        <div>
+          <a href="/shaman/-5505000055523051-55">Shaman test</a>
+          <a href="/shaman/-5595000055523051-55">Shaman test broken</a>
         </div>
       </div>
     )

@@ -1,10 +1,49 @@
 .icon {
+  position: relative;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  background-color: #222;
   
+  &:hover {
+    .icon__bg {
+      box-shadow: inset 0px 0px 6px 3px rgba(99, 150, 214, .8);
+    }
+  }
+
   &--medium {
     width: 40px;
     height: 40px;
+    border-radius: 5px;
+
+    .icon__bg {
+      width: 36px;
+      height: 36px;
+      top: 2px;
+      left: 2px;
+    }
+  }
+
+  &--golden {
+    .icon__frame {
+      background-image: url('/images/icons/large/gold.png');
+    }
+  }
+
+  &__bg {
+    position: absolute;
+    background-size: cover;
+    border-radius: 5px;
+  }
+
+  &__frame {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    top: -2px;
+    left: -2px;
+    background-image: url('/images/icons/large/default.png');
+    background-repeat: no-repeat;
+    background-size: contain;
   }
 }

@@ -9,6 +9,13 @@ import { classByName } from '../data/classes'
 export const MAX_POINTS = 51
 export const MAX_ROWS = 7
 
+export const SORT_TALENTS = (a: TalentData, b: TalentData) => {
+  if (a.row === b.row) {
+    return a.col - b.col
+  }
+  return a.row - b.row
+}
+
 /**
  * Returns the overall points spent in the tree.
  */
@@ -76,6 +83,7 @@ export const removeTalentPoint = (known: Map<number, number>, talent: TalentData
 
   // No points to reduce for this talent
   if (currentPoints === 0) {
+    console.warn('no points to reduce')
     return known
   }
   
@@ -85,8 +93,11 @@ export const removeTalentPoint = (known: Map<number, number>, talent: TalentData
 
   known.forEach((points, talentId) => {
     const t = talentsBySpec[specId][talentId]
-    if (t) {
+    if (t && points > 0) {
       isDependency = isDependency || t.requires.some((req) => req.id === talent.id)
+      if (t.row > highestRow) {
+        console.info('new highest row:', t)
+      }
       highestRow = t.row > highestRow ? t.row : highestRow
       for (let row = t.row; row < MAX_ROWS; row++) {
         cumulativePointsPerRow[row] = (cumulativePointsPerRow[row] || 0) + points
@@ -98,11 +109,18 @@ export const removeTalentPoint = (known: Map<number, number>, talent: TalentData
   const pointsUntilHighestRow = cumulativePointsPerRow[highestRow - 1]
   const targetPointsHighestRow = highestRow * 5
   if (talent.row < highestRow && pointsUntilHighestRow - 1 < targetPointsHighestRow) {
+    console.warn('would not break the requirements for talents spent in later rows', { 
+      talent,
+      highestRow,
+      pointsUntilHighestRow,
+      targetPointsHighestRow
+    })
     return known
   }
 
   // Prevent if another talent depends on this 
   if (isDependency) {
+    console.warn('is dependency')
     return known
   }
 
@@ -143,12 +161,7 @@ export function encodeKnownTalents(known: Map<number, number>, className: string
   const { specs } = classByName[className]
   for (let i = 0; i < specs.length; i++) {
     const specId = specs[i]
-    const talents = talentsBySpecArray[specId].sort((a, b) => {
-      if (a.row === b.row) {
-        return a.col - b.col
-      }
-      return a.row - b.row
-    })
+    const talents = talentsBySpecArray[specId].sort(SORT_TALENTS)
     string += i > 0 ? '-' : ''
     string += removeTrailingCharacters(
       talents.map((talent) => known.get(talent.id, 0)).join(''),
@@ -162,7 +175,36 @@ export function encodeKnownTalents(known: Map<number, number>, className: string
  * Decodes a string of points into a Map of talents.
  */
 export function decodeKnownTalents(pointString: string, className: string): Map<number, number> {
-  return Map()
+  console.log(pointString, className)
+
+  const { specs } = classByName[className]
+  let known = Map<number, number>()
+
+  // TODO: Make sure we validate the point string
+  const parts = pointString.split('-')
+  for (let i = 0; i < parts.length; i++) {
+    const specId = specs[i]
+    const specPointStr = parts[i]
+    console.log(specPointStr, { specId })
+    const talents = talentsBySpecArray[specId].sort(SORT_TALENTS)
+
+    for (let y = 0; y < specPointStr.length; y++) {
+      const talent = talents[y]
+      const points = parseInt(specPointStr[y], 10)
+      
+      // Validation: break out loop if there's more points in the string than this talent can have
+      if (points > talent.ranks.length) {
+        break
+      }
+      
+      if (points > 0) {
+        console.log(`Spent ${points} in ${talent.id}`)
+        known = known.set(talent.id, points)
+      }
+    }
+  }
+
+  return known
 }
 
 /**

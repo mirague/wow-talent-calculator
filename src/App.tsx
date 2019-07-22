@@ -7,7 +7,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="App">
-        <Route path="/:selectedClass?/:points?" component={IndexRoute} />
+        <Route path="/:selectedClass?/:pointString?" component={IndexRoute} />
       </div>
     </Router>
   );

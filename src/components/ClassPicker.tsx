@@ -29,7 +29,10 @@ export class ClassPicker extends React.PureComponent<Props> {
       {Object.values(classByName).map((c) => 
         <li key={c.id} className={classNameForItem(c, selected)}>
           <Link to={`/${c.name.toLowerCase()}`} title={c.name}>
-            <Icon name={c.icon} />
+            <Icon 
+              name={c.icon} 
+              golden={selected === c.name.toLowerCase()}
+            />
           </Link>
         </li>
       )}
