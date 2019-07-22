@@ -25,7 +25,7 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
   )
 
   const bodyStyle = { 
-    backgroundImage: `url("https://wow.zamimg.com/images/wow/talents/backgrounds/classic/${specId}.jpg")`
+    backgroundImage: `url(/images/specs/${specId}.jpg)`
   }
 
   const arrows = talents
