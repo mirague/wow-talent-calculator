@@ -3,11 +3,11 @@
 - [ ] General: Add redux
 - [ ] General: Talent tooltips
 - [ ] General: Responsive on mobile
-- [ ] System: Generate URL for chosen talents
-- [ ] Talent tree: Prettier talent frames
-- [ ] Talent tree: Downward arrow for dependencies
-- [ ] Talent tree: Colour markings on icons
+- [ ] Talent tree: Arrows for dependencies (all done except for right-down arrow)
 - [ ] Talent tree: Reset button per tree (?)
+- [x] System: Generate URL for chosen talents
+- [x] Talent tree: Prettier talent frames
+- [x] Talent tree: Colour markings on icons
 - [x] Prettier icon frames
 - [x] Pretty ClassPicker
 - [x] Add react-router
