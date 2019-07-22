@@ -1,13 +1,4 @@
-$row-offset: 30px;
-$row-distance: 70px;
-
-$col-offset: 44px;
-$col-distance: 56px;
-
-$color-yellow: #ffd100;
-$color-green: #1eff00;
-$color-dark-green: #40bf40;
-$color-subtle: #9d9d9d;
+@import "../sass/config";
 
 .talent {
   position: absolute;

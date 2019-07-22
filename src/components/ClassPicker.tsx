@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { classByName } from '../data/classes'
 import { Icon } from './Icon'
 import classNames from 'classnames'

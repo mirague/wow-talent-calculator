@@ -2,7 +2,8 @@ import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { TalentSlot } from './TalentSlot';
 import { getPointsInSpec } from '../lib/tree';
-import { talentsBySpec, specNames } from '../data/talents';
+import { talentsBySpec, specNames, talentsById } from '../data/talents'
+import { Arrow } from './Arrow'
 
 interface Props {
   specId: number
@@ -27,6 +28,16 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
     backgroundImage: `url("https://wow.zamimg.com/images/wow/talents/backgrounds/classic/${specId}.jpg")`
   }
 
+  const arrows = talents
+    .filter((talent) => talent.requires.length > 0)
+    .map((talent) => {
+      return <Arrow 
+        key={talent.id}
+        from={talentsById[talent.requires[0].id]}
+        to={talent} 
+      />
+    })
+
   return (
     <div className="tree">
       <div className="tree__header">
@@ -45,6 +56,8 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
             onRightClick={handleRightClick}
           />
         )}
+
+        {arrows}
       </div>
     </div>
   )

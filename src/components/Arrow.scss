@@ -1,0 +1,76 @@
+@import "../sass/config";
+
+.arrow {
+  $arrow-width: 15px;
+  position: absolute;
+
+  &--right,
+  &--left {
+    height: $arrow-width;
+
+    // Rows
+    @for $i from 0 through 6 {
+      &[data-row="#{$i}"] {
+        top: 12px + $row-offset + (($i) * $row-distance);
+      }
+    }
+
+    // Lengths
+    @for $i from 0 through 3 {
+      &[data-length="#{$i}"] { 
+        width: 1px + ($col-gutter * $i) + ($icon-size * ($i - 1));
+      }
+    }
+  }
+
+  &--right {
+    background: url('/images/arrows/right.png');
+    background-position: center right;
+
+    // Cols
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: 3px + $col-offset + ($col-distance * $i) + $icon-size;
+      }
+    }
+  }
+
+  &--left {
+    background: url('/images/arrows/left.png');
+    background-position: center left;
+
+    // Cols
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: -3px + $col-offset + ($col-gutter * ($i - 1)) + $icon-size;
+      }
+    }
+  }
+
+  &--down {
+    width: $arrow-width;
+    background: url('/images/arrows/down.png');
+    background-position: center bottom;
+
+    // Rows
+    @for $i from 0 through 6 {
+      &[data-row="#{$i}"] {
+        top: $row-offset + (($i) * $row-distance) + 40px;
+      }
+    }
+
+    // Cols
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: 5px + $col-offset + ($col-distance * $i) + floor($arrow-width / 2); 
+      }
+    }
+
+    // Lengths
+    @for $i from 0 through 3 {
+      &[data-length="#{$i}"] { 
+        height: 2px + ($row-offset * $i) + ($icon-size * ($i - 1));
+      }
+    }
+  }
+}
