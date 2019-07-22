@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { TalentSlot } from './TalentSlot';
-import { getPointsInSpec } from '../lib/tree';
+import { getPointsInSpec, canLearnTalent } from '../lib/tree';
 import { talentsBySpec, specNames, talentsById } from '../data/talents'
 import { Arrow } from './Arrow'
 
@@ -34,7 +34,8 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
       return <Arrow 
         key={talent.id}
         from={talentsById[talent.requires[0].id]}
-        to={talent} 
+        to={talent}
+        active={knownTalents.get(talent.id, 0) > 0 || canLearnTalent(knownTalents, talent)}
       />
     })
 

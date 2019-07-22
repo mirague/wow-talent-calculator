@@ -24,8 +24,12 @@
   }
 
   &--right {
-    background: url('/images/arrows/right.png');
+    background-image: url('/images/arrows/right.png');
     background-position: center right;
+
+    &.arrow--active {
+      background-image: url('/images/arrows/right-active.png');
+    }
 
     // Cols
     @for $i from 0 through 3 {
@@ -36,8 +40,12 @@
   }
 
   &--left {
-    background: url('/images/arrows/left.png');
+    background-image: url('/images/arrows/left.png');
     background-position: center left;
+
+    &.arrow--active {
+      background-image: url('/images/arrows/left-active.png');
+    }
 
     // Cols
     @for $i from 0 through 3 {
@@ -49,8 +57,12 @@
 
   &--down {
     width: $arrow-width;
-    background: url('/images/arrows/down.png');
+    background-image: url('/images/arrows/down.png');
     background-position: center bottom;
+
+    &.arrow--active {
+      background-image: url('/images/arrows/down-active.png');
+    }
 
     // Rows
     @for $i from 0 through 6 {

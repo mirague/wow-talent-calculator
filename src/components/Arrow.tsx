@@ -5,9 +5,10 @@ import classNames from 'classnames'
 interface Props {
   from: TalentData
   to: TalentData
+  active?: boolean
 }
 
-export const Arrow: FC<Props> = ({ from, to }) => {
+export const Arrow: FC<Props> = ({ from, to, active = false }) => {
   const length = to.row === from.row 
     ? Math.abs(to.col - from.col)
     : to.row - from.row
@@ -19,6 +20,7 @@ export const Arrow: FC<Props> = ({ from, to }) => {
   }
 
   const className = classNames('arrow', {
+    'arrow--active': active,
     'arrow--down': to.row > from.row,
     'arrow--right': to.row === from.row && to.col > from.col,
     'arrow--left': to.row === from.row && to.col < from.col,

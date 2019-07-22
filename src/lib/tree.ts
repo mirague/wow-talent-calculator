@@ -43,31 +43,39 @@ export function calcMeetsRequirements(talent: TalentData, known: Map<number, num
   }, true)
 }
 
-/**
- * Adds a single talent point to the Map, if possible.
- */
-export const addTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
-  const currentPoints = known.get(talent.id, 0)
-  
-  // Reached the max rank?
-  if (currentPoints >= talent.ranks.length) {
-    return known
+export const canLearnTalent = (known: Map<number, number>, talent: TalentData): boolean => {
+   // Reached the max rank?
+   if (known.get(talent.id, 0) >= talent.ranks.length) {
+    return false
   }
 
   // Spend a maximum of 51 points
   if (calcAvailablePoints(known) === 0) {
-    return known
+    return false
   }
   
   // Support for specific Talent dependency requirement.
   if (talent.requires.length > 0 && !calcMeetsRequirements(talent, known)) {
-    return known
+    return false
   }
   
   // Check we have the required amount of points spent in the tree for this talent
   const requiredPoints = talent.row * 5
   const pointsInSpec = getPointsInSpec(talentToSpec[talent.id], known)
   if (requiredPoints > pointsInSpec) {
+    return false
+  }
+
+  return true
+}
+
+/**
+ * Adds a single talent point to the Map, if possible.
+ */
+export const addTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
+  const currentPoints = known.get(talent.id, 0)
+  
+  if (!canLearnTalent(known, talent)) {
     return known
   }
 
