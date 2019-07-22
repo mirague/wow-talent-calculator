@@ -11,6 +11,12 @@
     }
   }
 
+  &:active {
+    .icon__bg {
+      box-shadow: inset 0px 0px 6px 3px rgba(99, 150, 214, 1);
+    }
+  }
+
   &--medium {
     width: 40px;
     height: 40px;
