@@ -90,10 +90,11 @@ export class Calculator extends React.PureComponent<Props> {
           Points: {availablePoints}
         </div>
 
-        <div>
-          <a href="/shaman/-5505000055523051-55">Shaman test</a>
-          <a href="/shaman/-5595000055523051-55">Shaman test broken</a>
-        </div>
+        <ul>
+          <li><a href="/shaman/-5505000055523051-55">Shaman test</a></li>
+          <li><a href="/shaman/-5595000055523051-55">Shaman test broken</a></li>
+          <li><a href="/rogue/-005055-50205302332212051">Rogue can unlearn first row</a></li>
+        </ul>
       </div>
     )
   }
