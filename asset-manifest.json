@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/wow-talent-calculator/static/css/main.c3222de2.chunk.css",
-    "main.js": "/wow-talent-calculator/static/js/main.3f32f54d.chunk.js",
-    "main.js.map": "/wow-talent-calculator/static/js/main.3f32f54d.chunk.js.map",
+    "main.js": "/wow-talent-calculator/static/js/main.efad2c29.chunk.js",
+    "main.js.map": "/wow-talent-calculator/static/js/main.efad2c29.chunk.js.map",
     "runtime~main.js": "/wow-talent-calculator/static/js/runtime~main.765bec70.js",
     "runtime~main.js.map": "/wow-talent-calculator/static/js/runtime~main.765bec70.js.map",
     "static/js/2.b60f3740.chunk.js": "/wow-talent-calculator/static/js/2.b60f3740.chunk.js",
     "static/js/2.b60f3740.chunk.js.map": "/wow-talent-calculator/static/js/2.b60f3740.chunk.js.map",
     "index.html": "/wow-talent-calculator/index.html",
-    "precache-manifest.b5870c5dfb96ad8e7487b04def8860cc.js": "/wow-talent-calculator/precache-manifest.b5870c5dfb96ad8e7487b04def8860cc.js",
+    "precache-manifest.e8f346d735a1da35486443044035ebf9.js": "/wow-talent-calculator/precache-manifest.e8f346d735a1da35486443044035ebf9.js",
     "service-worker.js": "/wow-talent-calculator/service-worker.js",
     "static/css/main.c3222de2.chunk.css.map": "/wow-talent-calculator/static/css/main.c3222de2.chunk.css.map"
   }
