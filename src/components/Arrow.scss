@@ -1,5 +1,21 @@
 @import "../sass/config";
 
+@function baseRowTopOffset($row) {
+  @return $row-offset + ($row * $row-distance);
+}
+
+@function calcLeftOffset($col) {
+  @return $col-offset + ($col-gutter * ($col - 1)) + $icon-size;
+}
+
+@function calcRightOffset($col) {
+  @return $col-offset + ($col-distance * $col) + $icon-size;
+}
+
+@function calcArrowHeight($length) {
+  @return 2px + ($row-offset * $length) + ($icon-size * ($length - 1))
+}
+
 .arrow {
   $arrow-width: 15px;
   position: absolute;
@@ -11,7 +27,7 @@
     // Rows
     @for $i from 0 through 6 {
       &[data-row="#{$i}"] {
-        top: 12px + $row-offset + (($i) * $row-distance);
+        top: 12px + baseRowTopOffset($i);
       }
     }
 
@@ -24,50 +40,50 @@
   }
 
   &--right {
-    background-image: url('/images/arrows/right.png');
+    background-image: url('../images/arrows/right.png');
     background-position: center right;
 
     &.arrow--active {
-      background-image: url('/images/arrows/right-active.png');
+      background-image: url('../images/arrows/right-active.png');
     }
 
     // Cols
     @for $i from 0 through 3 {
       &[data-col="#{$i}"] { 
-        left: 3px + $col-offset + ($col-distance * $i) + $icon-size;
+        left: 3px + calcRightOffset($i);
       }
     }
   }
 
   &--left {
-    background-image: url('/images/arrows/left.png');
+    background-image: url('../images/arrows/left.png');
     background-position: center left;
 
     &.arrow--active {
-      background-image: url('/images/arrows/left-active.png');
+      background-image: url('../images/arrows/left-active.png');
     }
 
     // Cols
     @for $i from 0 through 3 {
       &[data-col="#{$i}"] { 
-        left: -3px + $col-offset + ($col-gutter * ($i - 1)) + $icon-size;
+        left: -3px + calcLeftOffset($i);
       }
     }
   }
 
   &--down {
     width: $arrow-width;
-    background-image: url('/images/arrows/down.png');
+    background-image: url('../images/arrows/down.png');
     background-position: center bottom;
 
     &.arrow--active {
-      background-image: url('/images/arrows/down-active.png');
+      background-image: url('../images/arrows/down-active.png');
     }
 
     // Rows
     @for $i from 0 through 6 {
       &[data-row="#{$i}"] {
-        top: $row-offset + (($i) * $row-distance) + 40px;
+        top: 40px + baseRowTopOffset($i);
       }
     }
 
@@ -81,8 +97,28 @@
     // Lengths
     @for $i from 0 through 3 {
       &[data-length="#{$i}"] { 
-        height: 2px + ($row-offset * $i) + ($icon-size * ($i - 1));
+        height: calcArrowHeight($i);
       }
+    }
+  }
+
+  &--right-down {
+    // Horizontal
+    ::before {
+      content: "";
+      position: absolute;
+      height: $arrow-width;
+      background-image: url('../images/arrows/rightdown.png');
+      background-position: center right;
+    }
+
+    // Vertical
+    ::after {
+      content: "";
+      position: absolute;
+      width: $arrow-width;
+      background-image: url('../images/arrows/down.png');
+      background-position: center bottom;
     }
   }
 }

@@ -16,6 +16,15 @@ export const SORT_TALENTS = (a: TalentData, b: TalentData) => {
   return a.row - b.row
 }
 
+export const SORT_TALENTS_BY_SPEC = (a: TalentData, b: TalentData) => {
+  const aSpec = talentToSpec[a.id]
+  const bSpec = talentToSpec[b.id]
+  if (aSpec === bSpec) {
+    return SORT_TALENTS(a, b)
+  }
+  return aSpec - bSpec
+}
+
 /**
  * Returns the overall points spent in the tree.
  */
@@ -69,6 +78,56 @@ export const canLearnTalent = (known: Map<number, number>, talent: TalentData): 
   return true
 }
 
+export const getCumulativePointsPerRow = (known: Map<number, number>, specId: number): number[] => {
+  return known.reduce((reduction, points, talentId) => {
+    const t = talentsBySpec[specId][talentId]
+    if (t && points > 0) {
+      for (let row = t.row; row < MAX_ROWS; row++) {
+        reduction[row] = (reduction[row] || 0) + points
+      }
+    }
+    return reduction
+  }, [])
+}
+
+export const canUnlearnTalent = (known: Map<number, number>, talent: TalentData): boolean => {
+  const currentPoints = known.get(talent.id, 0)
+  const specId = talentToSpec[talent.id]
+
+  // No points to reduce for this talent
+  if (currentPoints === 0) {
+    console.warn('no points to reduce')
+    return false
+  }
+
+  // Prevent if another talent depends on this 
+  const isDependency = known.some((points, talentId) => {
+    const t = talentsBySpec[specId][talentId]
+    return t && points > 0 && t.requires.some((req) => req.id === talent.id)
+  })
+  if (isDependency) {
+    console.warn('is dependency')
+    return false
+  }
+  
+  // Walk through every talent and ensure no requirements are breached
+  let cumulativePointsPerRow = getCumulativePointsPerRow(known, specId)
+  for (let r = talent.row; r < cumulativePointsPerRow.length; r++) {
+    // Calculate what the points would look like when this one is removed
+    cumulativePointsPerRow[r] = cumulativePointsPerRow[r] - 1
+  }
+  const wouldBreach = known.some((points, talentId) => {
+    const t = talentsBySpec[specId][talentId]
+    return t && points > 0 && t.row > 0 && cumulativePointsPerRow[t.row - 1] < t.row * 5
+  })
+  if (wouldBreach) {
+    console.warn('point requirements would be breached')
+    return false
+  }
+
+  return true
+}
+
 /**
  * Adds a single talent point to the Map, if possible.
  */
@@ -87,48 +146,8 @@ export const addTalentPoint = (known: Map<number, number>, talent: TalentData): 
  */
 export const removeTalentPoint = (known: Map<number, number>, talent: TalentData): Map<number, number> => {
   const currentPoints = known.get(talent.id, 0)
-  const specId = talentToSpec[talent.id]
 
-  // No points to reduce for this talent
-  if (currentPoints === 0) {
-    console.warn('no points to reduce')
-    return known
-  }
-  
-  let isDependency = false
-  let highestRow = 0
-  let cumulativePointsPerRow = {}
-
-  known.forEach((points, talentId) => {
-    const t = talentsBySpec[specId][talentId]
-    if (t && points > 0) {
-      isDependency = isDependency || t.requires.some((req) => req.id === talent.id)
-      if (t.row > highestRow) {
-        console.info('new highest row:', t)
-      }
-      highestRow = t.row > highestRow ? t.row : highestRow
-      for (let row = t.row; row < MAX_ROWS; row++) {
-        cumulativePointsPerRow[row] = (cumulativePointsPerRow[row] || 0) + points
-      }
-    }
-  })
-
-  // Check if removing this talent would not break the requirements for talents spent in later rows
-  const pointsUntilHighestRow = cumulativePointsPerRow[highestRow - 1]
-  const targetPointsHighestRow = highestRow * 5
-  if (talent.row < highestRow && pointsUntilHighestRow - 1 < targetPointsHighestRow) {
-    console.warn('would not break the requirements for talents spent in later rows', { 
-      talent,
-      highestRow,
-      pointsUntilHighestRow,
-      targetPointsHighestRow
-    })
-    return known
-  }
-
-  // Prevent if another talent depends on this 
-  if (isDependency) {
-    console.warn('is dependency')
+  if (!canUnlearnTalent(known, talent)) {
     return known
   }
 
@@ -146,19 +165,6 @@ export const modifyTalentPoint = (known: Map<number, number>, talent: TalentData
   } else {
     return removeTalentPoint(known, talent)
   }
-}
-
-// TODO
-export function parsePointString(str: string): List<List<number>> {
-  const list: Array<number[]> = []
-  const trees = str.split('-')
-
-  trees.forEach((stringForTree, index) => {
-    const points = stringForTree.split('').map(a => parseInt(a, 10))
-    list[index] = points
-  })
-
-  return fromJS(list)
 }
 
 /**
@@ -183,8 +189,6 @@ export function encodeKnownTalents(known: Map<number, number>, className: string
  * Decodes a string of points into a Map of talents.
  */
 export function decodeKnownTalents(pointString: string, className: string): Map<number, number> {
-  console.log(pointString, className)
-
   const { specs } = classByName[className]
   let known = Map<number, number>()
 
@@ -206,7 +210,6 @@ export function decodeKnownTalents(pointString: string, className: string): Map<
       }
       
       if (points > 0) {
-        console.log(`Spent ${points} in ${talent.id}`)
         known = known.set(talent.id, points)
       }
     }

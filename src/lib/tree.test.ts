@@ -1,40 +1,94 @@
-import im from 'immutable'
-import { 
-  // setTalentPointsInTree, 
-  getPointsInSpec 
+import im, {
+  Map
+} from 'immutable'
+import {
+  canUnlearnTalent, canLearnTalent
 } from './tree'
+import {
+  talentsById
+} from '../data/talents'
 
+const createKnownTalents = (obj: object): Map <number, number> => {
+    let m = Map<number, number>()
+    Object.keys(obj).forEach((key) => {
+      m = m.set(parseInt(key, 10), obj[key])
+    })
+    return m
+  }
 
-// describe('setTalentPointsInTree', () => {
-//   it('sets points on an empty tree', () => {
-//     const tree = im.List()
-//     expect(setTalentPointsInTree(tree, 2, 5).toJS()).toEqual([0, 0, 5])
-//   })
-  
-//   it('sets points in the end of the current range', () => {
-//     const tree = im.List([0, 1])
-//     expect(setTalentPointsInTree(tree, 2, 5).toJS()).toEqual([0, 1, 5])
-//   })
-  
-//   it('sets points in the middle of the current range', () => {
-//     const tree = im.List([0, 0, 0, 0, 0, 0, 5])
-//     expect(setTalentPointsInTree(tree, 2, 5).toJS()).toEqual([0, 0, 5, 0, 0, 0, 5])
-//   })
-  
-//   it('does not mutate the tree for points already set', () => {
-//     const tree = im.List([0, 3, 2, 0, 5])
-//     expect(setTalentPointsInTree(tree, 1, 3)).toStrictEqual(tree)
-//   })
-// })
+const ROGUE_TALENTS = createKnownTalents({
+  241: 5, // Master of Deception
+  181: 5,
+  186: 5,
+  187: 5,
+  244: 5,
+  245: 3,
+  246: 3,
+  262: 3,
+  263: 2,
+  265: 2,
+  284: 1,
+  381: 1,
+  1123: 3,
+  1700: 2,
+  1701: 2,
+  1702: 5
+})
 
-// describe('getTreePointCount', () => {
-//   it('returns proper count', () => {
-//     const result = getPointsInSpec(im.List([0, 0, 4, 5, 3, 0, 0]))
-//     expect(result).toBe(12)
-//   })
+describe('canUnlearnTalent', () => {
+  it('returns false for the incorrect Rogue talent case', () => {
+    const result = canUnlearnTalent(ROGUE_TALENTS, talentsById[241])
+    expect(result).toBe(false)
+  })
 
-//   it('returns 0 for empty list', () => {
-//     const result = getPointsInSpec(im.List())
-//     expect(result).toBe(0)
-//   })
-// })
+  it('returns false if no points are spent for the talent', () => {
+    const result = canUnlearnTalent(Map(), talentsById[241])
+    expect(result).toBe(false)
+  })
+
+  it('returns false if the talent is a dependency for another learnt talent', () => {
+    // http://localhost:3000/rogue/-00505001
+    const known = createKnownTalents({
+      186: 5, // Row 1
+      187: 5, // Row 2
+      301: 1, // Row 3
+    })
+    const result = canUnlearnTalent(known, talentsById[187])
+    expect(result).toBe(false)
+  })
+
+  it('returns true with points only spent in the first row', () => {
+    const known = createKnownTalents({
+      241: 5
+    })
+    const result = canUnlearnTalent(known, talentsById[241])
+    expect(result).toBe(true)
+  })
+})
+
+describe('canLearnTalent', () => {
+  it('returns false if 51 points are already spent', () => {
+    // http://localhost:3000/rogue/-005055010055505-55005
+    const known = createKnownTalents({
+      "181": 5,
+      "182": 5,
+      "184": 5,
+      "186": 5,
+      "187": 5,
+      "221": 5,
+      "222": 1,
+      "241": 5,
+      "242": 4,
+      "244": 5,
+      "261": 5,
+      "301": 1
+    })
+    const result = canLearnTalent(known, talentsById[222])
+    expect(result).toBe(false)
+  })
+
+  it('returns true for talent in the first row', () => {
+    const result = canLearnTalent(Map(), talentsById[186])
+    expect(result).toBe(true)
+  })
+})
