@@ -60,17 +60,20 @@
     }
   }
 
-  &--loading {
+  &--loaded {
     .icon__bg {
-      opacity: 0;
+      opacity: 1;
+    }
+
+    &.icon--fade-in .icon__bg {
+      animation: fadeIn .1s forwards;
     }
   }
 
   &__bg {
     position: absolute;
     background-size: cover;
-    opacity: 1;
-    transition: all 100ms ease-out;
+    opacity: 0;
   }
 
   &__frame {
@@ -80,3 +83,4 @@
     background-size: contain;
   }
 }
+

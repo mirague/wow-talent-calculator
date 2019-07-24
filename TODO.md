@@ -1,5 +1,6 @@
 # TODO
 
+- [ ] SCSS: Normalize
 - [ ] General: Add redux
 - [ ] General: Talent tooltips
 - [ ] General: Responsive on mobile

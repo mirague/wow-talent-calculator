@@ -7,11 +7,13 @@ $col-offset: 44px;
 $col-gutter: 16px;
 $col-distance: $icon-size + $col-gutter;
 
-$color-yellow: #ffd100;
-$color-green: #1eff00;
-$color-dark-green: #40bf40;
-$color-subtle: #9d9d9d;
-$color-icon-overlay: #6396d6;
+// Item quality colours
+$quality-0: #9d9d9d;
+$quality-1: #fff;
+$quality-2: #1eff00;
+$quality-3: #0070dd;
+$quality-4: #a335ee;
+$quality-5: #ff8000;
 
 // Class colours
 $color-warrior: #c69b6d;
@@ -23,3 +25,17 @@ $color-shaman: #2359ff;
 $color-mage: #68ccef;
 $color-warlock: #9382c9;
 $color-druid: #ff7c0a;
+
+// Colours used in app
+$color-yellow: #ffd100;
+$color-green: $quality-2;
+$color-dark-green: #40bf40;
+$color-subtle: $quality-0;
+$color-icon-overlay: #6396d6;
+
+$color-description: $color-yellow;
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+} 

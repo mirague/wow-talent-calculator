@@ -4,6 +4,12 @@ body {
   color: white;
   background-color: #111;
   font-family: Verdana;
+  margin: 0;
+}
+
+// Normalize etc.
+ul {
+  margin: 0;
 }
 
 a {
@@ -25,6 +31,17 @@ a {
 
   & > * {
     margin-right: 1em;
+  }
+}
+
+.yellow { color: $color-yellow; }
+.green { color: $quality-2; }
+
+.tight {
+  margin-bottom: 0;
+
+  & + p {
+    margin-top: 0;
   }
 }
 
@@ -69,35 +86,16 @@ a {
   }
 }
 
-.class-picker {
-  display: flex;
-  list-style: none;
-  padding: 0;
+.index {
+  min-height: 85vh;
+}
+
+.index__class-picker {
   margin: 2em 0;
+}
 
-  &--center {
-    justify-content: center;
-  }
-
-  &__class {
-    margin-right: 1em;
-    opacity: 1;
-    transition: all .1s ease-out;
-
-    &:hover {
-      opacity: 1;
-    }
-
-    &--active {
-      opacity: 1;
-    }
-
-    &--inactive {
-      opacity: .4;
-
-      &:hover {
-        opacity: .5;
-      }
-    }
-  }
+footer {
+  padding: 2em;
+  font-size: 12px;
+  text-align: center;
 }

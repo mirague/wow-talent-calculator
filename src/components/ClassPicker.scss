@@ -1,0 +1,31 @@
+.class-picker {
+  display: flex;
+  list-style: none;
+  padding: 0;
+
+  &--center {
+    justify-content: center;
+  }
+
+  &__class {
+    margin-right: 1em;
+    opacity: 1;
+    transition: all .1s ease-out;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    &--active {
+      opacity: 1;
+    }
+
+    &--inactive {
+      opacity: .4;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
+  }
+}

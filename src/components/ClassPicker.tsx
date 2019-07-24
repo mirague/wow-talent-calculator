@@ -1,3 +1,4 @@
+import './ClassPicker.scss'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { classByName } from '../data/classes'
@@ -8,6 +9,7 @@ interface Props {
   /** Name of the selected class, lowercase */
   selected?: string
   center?: boolean
+  className?: string
 }
 
 const classNameForItem = (c: ClassData, selected: string) => classNames('class-picker__class', {
@@ -24,7 +26,7 @@ export class ClassPicker extends React.PureComponent<Props> {
     const cn = classNames('class-picker', {
       'class-picker--has-selection': !!selected,
       'class-picker--center': center,
-    })
+    }, this.props.className)
   
     return (
       <ul className={cn}>

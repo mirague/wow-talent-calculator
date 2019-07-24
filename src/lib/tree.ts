@@ -1,4 +1,4 @@
-import { List, Map, fromJS } from 'immutable'
+import { Map } from 'immutable'
 import { 
   talentsBySpec, 
   talentToSpec, 

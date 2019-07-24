@@ -1,0 +1,9 @@
+.playground-section {
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -28,7 +28,7 @@ export const Tooltip: FC<Props> = (props) => {
     <div className="tooltip__inner">
       <div className="tooltip__top">
         <div className="tooltip__body">
-          {title}
+          {title && <div className="tooltip__title tight">{title}</div>}
           {children}
         </div>
       </div>

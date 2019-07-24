@@ -5,13 +5,12 @@ import {
   modifyTalentPoint, 
   calcAvailablePoints,
   encodeKnownTalents,
-  SORT_TALENTS_BY_SPEC
 } from '../lib/tree'
-import { talentsBySpec, talentsById } from '../data/talents'
+import { talentsBySpec } from '../data/talents'
 import { classByName } from '../data/classes'
 import { History } from 'history'
-import { spells } from '../data/spells'
 import { debugPrintKnown } from '../lib/debug'
+import { Link } from 'react-router-dom';
 
 interface Props {
   selectedClass: string
@@ -96,10 +95,11 @@ export class Calculator extends React.PureComponent<Props> {
           Points: {availablePoints}
         </div>
 
+        <h4>Quick links</h4>
         <ul>
-          <li><a href="/shaman/-5505000055523051-55">Shaman test</a></li>
-          <li><a href="/shaman/-5595000055523051-55">Shaman test broken</a></li>
-          <li><a href="/rogue/325323125551351-3253552122555155231-55225313333212151">Full Rogue</a></li>
+          <li><Link to="/shaman/-5505000055523051-55">Shaman test</Link></li>
+          <li><Link to="/shaman/-5595000055523051-55">Shaman test broken</Link></li>
+          <li><Link to="/rogue/325323125551351-3253552122555155231-55225313333212151">Full Rogue (shouldn't be possible)</Link></li>
         </ul>
       </div>
     )
