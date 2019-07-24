@@ -7,6 +7,7 @@
 - [ ] Talent tree: Reset button per tree (?)
 - [ ] Fix: Initial load `pointString` validation (make sure all talents are valid and their deps are met)
 - [ ] Fix: Arrow should start underneath the icon
+- [ ] Fix: Navigating between talent links for same class does not trigger re-render
 - [x] Talent tree: Arrows for dependencies
 - [x] System: Generate URL for chosen talents
 - [x] Talent tree: Prettier talent frames
