@@ -11,7 +11,7 @@ interface Props {
 export const Icon: FC<Props> = ({ name, size = 'medium', golden = false, children }) => {
   const [hasLoadedImage, setHasLoadedImage] = useState(false)
 
-  const bgSize = size === 'medium' ? 'large' : 'medium'
+  const bgSize = size !== 'small' ? 'large' : 'medium'
   const url = `https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg`
 
   useEffect(() => {

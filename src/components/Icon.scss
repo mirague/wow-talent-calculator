@@ -1,11 +1,34 @@
 @import "../sass/_config";
 
+@mixin icon-size($size) {
+  $offset: $size * 0.1;
+
+  width: $size;
+  height: $size;
+
+  .icon__bg {
+    width: ceil($size - $offset);
+    height: ceil($size - $offset);
+    border-radius: $size / 8;
+    top: $size * 0.05;
+    left: $size * 0.05;
+  }
+
+  .icon__frame {
+    width: $size + $offset;
+    height: $size + $offset;
+    top: -($offset * .5);
+    left: -($offset * .5);
+  }
+}
+
 .icon {
   position: relative;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: #222;
+  border-radius: 5px;
   
   &:hover {
     .icon__bg {
@@ -19,17 +42,16 @@
     }
   }
 
-  &--medium {
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
+  &--small {
+    @include icon-size(20px);
+  }
 
-    .icon__bg {
-      width: 36px;
-      height: 36px;
-      top: 2px;
-      left: 2px;
-    }
+  &--medium {
+    @include icon-size(40px);
+  }
+
+  &--large {
+    @include icon-size(60px);
   }
 
   &--golden {
@@ -47,17 +69,12 @@
   &__bg {
     position: absolute;
     background-size: cover;
-    border-radius: 5px;
     opacity: 1;
     transition: all 100ms ease-out;
   }
 
   &__frame {
     position: absolute;
-    width: 44px;
-    height: 44px;
-    top: -2px;
-    left: -2px;
     background-image: url('../images/icons/large/default.png');
     background-repeat: no-repeat;
     background-size: contain;

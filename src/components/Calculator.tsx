@@ -99,8 +99,7 @@ export class Calculator extends React.PureComponent<Props> {
         <ul>
           <li><a href="/shaman/-5505000055523051-55">Shaman test</a></li>
           <li><a href="/shaman/-5595000055523051-55">Shaman test broken</a></li>
-          <li><a href="/rogue/-005055-50205302332212051">Rogue (should break, does not meet requirement)</a></li>
-          <li><a href="/rogue/-005055-50205302333212041">Rogue can unlearn first row AND dependency</a></li>
+          <li><a href="/rogue/325323125551351-3253552122555155231-55225313333212151">Full Rogue</a></li>
         </ul>
       </div>
     )

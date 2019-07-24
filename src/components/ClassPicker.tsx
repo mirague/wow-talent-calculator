@@ -7,6 +7,7 @@ import classNames from 'classnames'
 interface Props {
   /** Name of the selected class, lowercase */
   selected?: string
+  center?: boolean
 }
 
 const classNameForItem = (c: ClassData, selected: string) => classNames('class-picker__class', {
@@ -18,10 +19,11 @@ export class ClassPicker extends React.PureComponent<Props> {
   static whyDidYouRender = true
 
   render() {
-    const { selected } = this.props
+    const { selected, center = false } = this.props
 
     const cn = classNames('class-picker', {
-      'class-picker--has-selection': !!selected
+      'class-picker--has-selection': !!selected,
+      'class-picker--center': center,
     })
   
     return (

@@ -1,8 +1,31 @@
 @import "sass/config";
 
 body {
+  color: white;
   background-color: #111;
   font-family: Verdana;
+}
+
+a {
+  text-decoration: none;
+  color: pink;
+
+  &:hover {
+    color: lighten(pink, 50%);
+  }
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.inline-items {
+  display: flex;
+
+  & > * {
+    margin-right: 1em;
+  }
 }
 
 .calculator {
@@ -48,10 +71,13 @@ body {
 
 .class-picker {
   display: flex;
-  justify-content: center;
   list-style: none;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  padding: 0;
+  margin: 2em 0;
+
+  &--center {
+    justify-content: center;
+  }
 
   &__class {
     margin-right: 1em;

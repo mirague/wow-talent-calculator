@@ -110,8 +110,7 @@
     }
   }
 
-  &--right-down,
-  &--left-down {
+  &--side-down {
     // Position based on row
     @for $i from 0 through 6 {
       &[data-row="#{$i}"] {

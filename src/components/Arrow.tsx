@@ -31,7 +31,7 @@ export const Arrow: FC<Props> = ({ from, to, active = false }) => {
 
   const height = to.row - from.row
   const width = Math.abs(to.col - from.col)
-  
+
   const dir = getDirection(from, to)
   if (dir === 'right-down' || dir === 'left-down') {
     props['data-height'] = height
@@ -42,6 +42,7 @@ export const Arrow: FC<Props> = ({ from, to, active = false }) => {
 
   const className = classNames('arrow', `arrow--${dir}`, {
     'arrow--active': active,
+    'arrow--side-down': dir === 'right-down' || dir === 'left-down'
   })
 
   return <div className={className} {...props} />

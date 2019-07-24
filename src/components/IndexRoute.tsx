@@ -33,7 +33,7 @@ export class IndexRoute extends React.PureComponent<Props> {
 
     return (
       <div className="index">
-        <ClassPicker selected={selectedClass} />
+        <ClassPicker center selected={selectedClass} />
   
         {selectedClass && 
           <Calculator 
