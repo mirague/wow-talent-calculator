@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/wow-talent-calculator/precache-manifest.f96f08b0b60bea95cd9826c8daf52a7d.js"
+  "/wow-talent-calculator/precache-manifest.09664a8c963bbb1d53f3aae2369e0427.js"
 );
 
 self.addEventListener('message', (event) => {

@@ -1,18 +1,18 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "08cf48e4f00b05f2c968865bb92b9999",
+    "revision": "33ce5b5a8778bf628f5107c98f8df4fc",
     "url": "/wow-talent-calculator/index.html"
   },
   {
-    "revision": "424f365cc6bffa72d36c",
-    "url": "/wow-talent-calculator/static/css/main.508deaed.chunk.css"
+    "revision": "37dc8b6d556e7b1b1a2f",
+    "url": "/wow-talent-calculator/static/css/main.18a0d16c.chunk.css"
   },
   {
     "revision": "95c43f4232c19b5cd649",
     "url": "/wow-talent-calculator/static/js/2.3c519615.chunk.js"
   },
   {
-    "revision": "424f365cc6bffa72d36c",
+    "revision": "37dc8b6d556e7b1b1a2f",
     "url": "/wow-talent-calculator/static/js/main.372b5184.chunk.js"
   },
   {

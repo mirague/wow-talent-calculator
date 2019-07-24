@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/wow-talent-calculator/static/css/main.508deaed.chunk.css",
+    "main.css": "/wow-talent-calculator/static/css/main.18a0d16c.chunk.css",
     "main.js": "/wow-talent-calculator/static/js/main.372b5184.chunk.js",
     "main.js.map": "/wow-talent-calculator/static/js/main.372b5184.chunk.js.map",
     "runtime~main.js": "/wow-talent-calculator/static/js/runtime~main.765bec70.js",
@@ -8,9 +8,9 @@
     "static/js/2.3c519615.chunk.js": "/wow-talent-calculator/static/js/2.3c519615.chunk.js",
     "static/js/2.3c519615.chunk.js.map": "/wow-talent-calculator/static/js/2.3c519615.chunk.js.map",
     "index.html": "/wow-talent-calculator/index.html",
-    "precache-manifest.f96f08b0b60bea95cd9826c8daf52a7d.js": "/wow-talent-calculator/precache-manifest.f96f08b0b60bea95cd9826c8daf52a7d.js",
+    "precache-manifest.09664a8c963bbb1d53f3aae2369e0427.js": "/wow-talent-calculator/precache-manifest.09664a8c963bbb1d53f3aae2369e0427.js",
     "service-worker.js": "/wow-talent-calculator/service-worker.js",
-    "static/css/main.508deaed.chunk.css.map": "/wow-talent-calculator/static/css/main.508deaed.chunk.css.map",
+    "static/css/main.18a0d16c.chunk.css.map": "/wow-talent-calculator/static/css/main.18a0d16c.chunk.css.map",
     "static/media/161.jpg": "/wow-talent-calculator/static/media/161.3b1eb099.jpg",
     "static/media/163.jpg": "/wow-talent-calculator/static/media/163.d8ff0256.jpg",
     "static/media/164.jpg": "/wow-talent-calculator/static/media/164.5a9a21e2.jpg",
