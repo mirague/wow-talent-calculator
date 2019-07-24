@@ -13,7 +13,39 @@
 }
 
 @function calcArrowHeight($length) {
-  @return 2px + ($row-offset * $length) + ($icon-size * ($length - 1))
+  @return 2px + ($row-offset * $length) + ($icon-size * ($length - 1));
+}
+
+@mixin arrow-left {
+  background-image: url('../images/arrows/left.png');
+  background-position: center left;
+
+  &.arrow--active {
+    background-image: url('../images/arrows/left-active.png');
+  }
+
+  // Cols
+  @for $i from 0 through 3 {
+    &[data-col="#{$i}"] { 
+      left: -3px + calcLeftOffset($i);
+    }
+  }
+}
+
+@mixin arrow-right {
+  background-image: url('../images/arrows/right.png');
+  background-position: center right;
+
+  &.arrow--active {
+    background-image: url('../images/arrows/right-active.png');
+  }
+
+  // Cols
+  @for $i from 0 through 3 {
+    &[data-col="#{$i}"] { 
+      left: 3px + calcRightOffset($i);
+    }
+  }
 }
 
 .arrow {
@@ -40,35 +72,11 @@
   }
 
   &--right {
-    background-image: url('../images/arrows/right.png');
-    background-position: center right;
-
-    &.arrow--active {
-      background-image: url('../images/arrows/right-active.png');
-    }
-
-    // Cols
-    @for $i from 0 through 3 {
-      &[data-col="#{$i}"] { 
-        left: 3px + calcRightOffset($i);
-      }
-    }
+    @include arrow-right()
   }
 
   &--left {
-    background-image: url('../images/arrows/left.png');
-    background-position: center left;
-
-    &.arrow--active {
-      background-image: url('../images/arrows/left-active.png');
-    }
-
-    // Cols
-    @for $i from 0 through 3 {
-      &[data-col="#{$i}"] { 
-        left: -3px + calcLeftOffset($i);
-      }
-    }
+    @include arrow-left()
   }
 
   &--down {
@@ -83,7 +91,7 @@
     // Rows
     @for $i from 0 through 6 {
       &[data-row="#{$i}"] {
-        top: 40px + baseRowTopOffset($i);
+        top: $icon-size + baseRowTopOffset($i);
       }
     }
 
@@ -102,23 +110,103 @@
     }
   }
 
-  &--right-down {
+  &--right-down,
+  &--left-down {
+    // Position based on row
+    @for $i from 0 through 6 {
+      &[data-row="#{$i}"] {
+        top: 12px + baseRowTopOffset($i);
+
+        &:after {
+          top: $arrow-width;
+        }
+      }
+    }
+
+    // Width
+    @for $i from 0 through 3 {
+      &[data-width="#{$i}"] {
+        width: 2px + ($icon-size * $i);
+      }
+    }
+
+    // Height
+    @for $i from 0 through 3 {
+      &[data-height="#{$i}"] {
+        height: 8px + ($row-offset + ($icon-size * .5)) * $i;
+      }
+    }
+
     // Horizontal
-    ::before {
+    &:before {
       content: "";
       position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       height: $arrow-width;
+    }
+
+    // Arrow down
+    &:after {
+      content: "";
+      position: absolute;
+      width: $arrow-width;
+      top: $arrow-width;
+      right: 0;
+      bottom: -3px;
+      background-image: url('../images/arrows/down.png');
+      background-position: center bottom;
+    }
+  }
+
+  &--right-down {
+    // Positioning based on cols
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: 2px + calcRightOffset($i);
+      }
+    }
+
+    &.arrow--active {
+      &:before { background-image: url('../images/arrows/rightdown-active.png'); }
+      &:after { background-image: url('../images/arrows/down-active.png'); }
+    }
+    
+    // Arrow to the right
+    &:before {
       background-image: url('../images/arrows/rightdown.png');
       background-position: center right;
     }
 
-    // Vertical
-    ::after {
-      content: "";
-      position: absolute;
-      width: $arrow-width;
-      background-image: url('../images/arrows/down.png');
-      background-position: center bottom;
+    // Arrow down
+    &:after {
+      right: 0;
+    }
+  }
+
+  &--left-down {
+    // Positioning based on cols
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: -2px + calcLeftOffset($i);
+      }
+    }
+
+    &.arrow--active {
+      &:before { background-image: url('../images/arrows/leftdown-active.png'); }
+      &:after { background-image: url('../images/arrows/down-active.png'); }
+    }
+    
+    // Arrow to the left
+    &:before {
+      background-image: url('../images/arrows/leftdown.png');
+      background-position: center left;
+    }
+
+    // Arrow down
+    &:after {
+      left: 0;
     }
   }
 }

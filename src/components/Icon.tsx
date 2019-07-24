@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import classNames from 'classnames'
 import './Icon.scss'
 
@@ -9,21 +9,25 @@ interface Props {
 }
 
 export const Icon: FC<Props> = ({ name, size = 'medium', golden = false, children }) => {
-  const className = classNames(
-    'icon', 
-    `icon--${size}`, {
-      'icon--golden': golden
-    }
-  )
+  const [hasLoadedImage, setHasLoadedImage] = useState(false)
 
   const bgSize = size === 'medium' ? 'large' : 'medium'
-  const bgStyle = {
-    backgroundImage: `url(https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg)`
-  }
+  const url = `https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg`
+
+  useEffect(() => {
+    const img = new Image()
+    img.onload = () => setHasLoadedImage(true)
+    img.src = url
+  }, [])
+
+  const className = classNames('icon', `icon--${size}`, {
+    'icon--golden': golden,
+    'icon--loading': !hasLoadedImage
+  })
 
   return (
     <div className={className}>
-      <div className="icon__bg" style={bgStyle} />
+      <div className="icon__bg" style={{ backgroundImage: `url(${url})` }} />
       <div className="icon__frame" />
       {children}
     </div>

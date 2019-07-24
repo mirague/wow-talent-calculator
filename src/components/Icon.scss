@@ -38,10 +38,18 @@
     }
   }
 
+  &--loading {
+    .icon__bg {
+      opacity: 0;
+    }
+  }
+
   &__bg {
     position: absolute;
     background-size: cover;
     border-radius: 5px;
+    opacity: 1;
+    transition: all 100ms ease-out;
   }
 
   &__frame {

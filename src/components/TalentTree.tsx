@@ -14,6 +14,7 @@ interface Props {
 
 export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoints, onTalentPress }) => {
   const talents = Object.values(talentsBySpec[specId])
+  const bgImg = require(`../images/specs/${specId}.jpg`)
 
   const handleClick = useCallback(
     (talentId) => onTalentPress(specId, talentId, 1), 
@@ -24,12 +25,8 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
     [specId, onTalentPress]
   )
 
-  const bodyStyle = { 
-    backgroundImage: `url(${require(`../images/specs/${specId}.jpg`)})`
-  }
-
   const arrows = talents
-    .filter((talent) => talent.requires.length > 0)
+    .filter((talent) => talent.requires.length)
     .map((talent) => {
       return <Arrow 
         key={talent.id}
@@ -45,7 +42,7 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
         <h3>{specNames[specId]} ({getPointsInSpec(specId, knownTalents)})</h3>
       </div>
 
-      <div className="tree__body" style={bodyStyle}>
+      <div className="tree__body" style={{ backgroundImage: `url(${bgImg})` }}>
         {talents.map((talent) => 
           <TalentSlot 
             key={talent.id}
