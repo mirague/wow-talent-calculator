@@ -2,10 +2,11 @@ import './Playground.scss'
 import React, { FC } from 'react'
 import { ClassPicker } from './ClassPicker'
 import { RouteComponentProps } from 'react-router'
-import { Icon } from './Icon';
-import { Tooltip } from './Tooltip';
-import { TalentSlot } from './TalentSlot';
-import { talentsById } from '../data/talents';
+import { Icon } from './Icon'
+import { Tooltip } from './Tooltip'
+import { Talent } from './Talent'
+import { talentsById } from '../data/talents'
+import { Map } from 'immutable'
 
 interface Props extends RouteComponentProps {
   //
@@ -19,6 +20,10 @@ const iconNames = [
   'class_shaman',
   'inv_ammo_firetar',
   'spell_shadow_requiem',
+]
+
+const talentIds = [
+  76, 181, 182, 821
 ]
 
 const DEEP_WOUNDS = <Tooltip title="Deep Wounds" fixed>
@@ -44,7 +49,27 @@ const Section: FC<any> = (props) => {
 export class Playground extends React.PureComponent<Props> {
   static whyDidYouRender = true
 
+  state = {
+    points: Map<number, number>()
+  }
+
+  handleTalentClick = (id) => {
+    const { points } = this.state
+    this.setState({ 
+      points: points.set(id, points.get(id, 0) + 1)
+    })
+  }
+
+  handleTalentRightClick = (id) => {
+    const { points } = this.state
+    this.setState({ 
+      points: points.set(id, Math.max(0, points.get(id, 0) - 1))
+    })
+  }
+
   render() {
+    const { points } = this.state
+  
     return (
       <div className="playground">
         <Section title="Class Picker">
@@ -68,33 +93,49 @@ export class Playground extends React.PureComponent<Props> {
           </div>
         </Section>
 
-        <Section title="TalentSlot">
+        <Section title="Talent">
+          <h3>Static</h3>
           <div className="inline-items">
-            <TalentSlot
+            <Talent
               talent={talentsById[181]}
               disabled
             />
 
-            <TalentSlot
+            <Talent
               talent={talentsById[181]}
             />
 
-            <TalentSlot
+            <Talent
               talent={talentsById[181]}
               points={3}
             />
 
-            <TalentSlot
+            <Talent
               talent={talentsById[181]}
               points={5}
             />
 
-            <TalentSlot
+            <Talent
               talent={talentsById[181]}
               points={3}
               disabled
             />
           </div>
+
+          <h3>Interactive</h3>
+          <div className="inline-items">
+            {talentIds.map(id => 
+              <Talent
+                key={id}
+                talent={talentsById[id]}
+                points={points.get(id, 0)}
+                disabled={points.get(id, 0) === talentsById[id].ranks.length}
+                onClick={this.handleTalentClick}
+                onRightClick={this.handleTalentRightClick}
+              />
+            )}
+          </div>
+
         </Section>
 
         <Section title="Tooltips">

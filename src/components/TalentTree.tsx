@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
-import { TalentSlot } from './TalentSlot';
+import { Talent } from './Talent';
 import { getPointsInSpec, canLearnTalent, calcMeetsRequirements } from '../lib/tree';
 import { talentsBySpec, specNames, talentsById, talentToSpec } from '../data/talents'
 import { Arrow } from './Arrow'
@@ -44,7 +44,7 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
 
       <div className="tree__body" style={{ backgroundImage: `url(${bgImg})` }}>
         {talents.map((talent) => 
-          <TalentSlot 
+          <Talent 
             key={talent.id}
             talent={talent}
             points={knownTalents.get(talent.id, 0)}

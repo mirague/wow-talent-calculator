@@ -1,4 +1,4 @@
-import './TalentSlot.scss'
+import './Talent.scss'
 import React, { FC } from 'react'
 import { Icon } from './Icon'
 import classNames from 'classnames'
@@ -19,7 +19,7 @@ const defaultProps: Partial<Props> = {
   onRightClick: () => undefined
 }
 
-export const TalentSlot: FC<Props> = (props) => {
+export const Talent: FC<Props> = (props) => {
   const { talent, points, disabled } = props
   const showPoints = !disabled || points > 0
 
@@ -61,6 +61,6 @@ export const TalentSlot: FC<Props> = (props) => {
   )
 }
 
-TalentSlot.defaultProps = defaultProps
+Talent.defaultProps = defaultProps
 
-;(TalentSlot as any).whyDidYouRender = true
+// ;(Talent as any).whyDidYouRender = true
