@@ -9,7 +9,7 @@ import {
 import { talentsBySpec } from '../data/talents'
 import { classByName } from '../data/classes'
 import { History } from 'history'
-import { debugPrintKnown } from '../lib/debug'
+// import { debugPrintKnown } from '../lib/debug'
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -59,7 +59,7 @@ export class Calculator extends React.PureComponent<Props> {
     this.setState({ knownTalents: newKnownTalents })
 
     // Debug
-    debugPrintKnown(newKnownTalents)
+    // debugPrintKnown(newKnownTalents)
   }
 
   render() {

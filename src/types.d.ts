@@ -5,6 +5,14 @@ interface TalentTree {
   talents: Talent[]
 }
 
+interface SpellData {
+  id?: number
+  name: string
+  rank: number
+  icon: string
+  description: string
+}
+
 interface ClassData {
   id: number
   name: string

@@ -204,7 +204,6 @@ export function decodeKnownTalents(pointString: string, className: string): Map<
   for (let i = 0; i < parts.length; i++) {
     const specId = specs[i]
     const specPointStr = parts[i]
-    console.log(specPointStr, { specId })
     const talents = talentsBySpecArray[specId].sort(SORT_TALENTS)
 
     for (let y = 0; y < specPointStr.length; y++) {

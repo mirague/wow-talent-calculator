@@ -24,7 +24,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "fetch-spells": "ts-node --files --project src/tools/tsconfig.json src/tools/data-fetch.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,7 +43,12 @@
     ]
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.12",
+    "@types/node-fetch": "^2.5.0",
     "@welldone-software/why-did-you-render": "^3.2.1",
-    "gh-pages": "^2.0.1"
+    "cheerio": "^1.0.0-rc.3",
+    "gh-pages": "^2.0.1",
+    "node-fetch": "^2.6.0",
+    "ts-node": "^8.3.0"
   }
 }
