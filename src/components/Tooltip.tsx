@@ -1,6 +1,7 @@
 import './Tooltip.scss'
 import React, { FC } from 'react'
 import classNames from 'classnames'
+import { Icon } from './Icon'
 
 interface Props {
   title?: string
@@ -10,6 +11,8 @@ interface Props {
   fixed?: boolean
   /** Display tooltip inline */
   inline?: boolean
+  /** Icon to show next to tooltip */
+  icon?: string
 }
 
 export const Tooltip: FC<Props> = (props) => {
@@ -24,8 +27,11 @@ export const Tooltip: FC<Props> = (props) => {
     width: props.width
   }
 
-  return <div className={cn} style={style}>
-    <div className="tooltip__inner">
+  return <div className={cn}>
+    {props.icon && 
+      <Icon className="tooltip__icon" name={props.icon} />
+    }
+    <div className="tooltip__inner" style={style}>
       <div className="tooltip__top">
         <div className="tooltip__body">
           {title && <div className="tooltip__title tight">{title}</div>}

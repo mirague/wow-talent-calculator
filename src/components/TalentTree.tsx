@@ -2,8 +2,8 @@ import './TalentTree.scss'
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { Talent } from './Talent';
-import { getPointsInSpec, canLearnTalent, calcMeetsRequirements, SORT_TALENTS_DESC } from '../lib/tree';
-import { talentsBySpec, specNames, talentsById, talentToSpec } from '../data/talents'
+import { getPointsInSpec, canLearnTalent, SORT_TALENTS_DESC } from '../lib/tree';
+import { talentsBySpec, specNames, talentsById } from '../data/talents'
 import { Arrow } from './Arrow'
 
 interface Props {
@@ -36,9 +36,8 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
           const points = knownTalents.get(talent.id, 0)
           const canLearn = canLearnTalent(knownTalents, talent)
 
-          return <React.Fragment>
-            <Talent 
-              key={talent.id}
+          return <React.Fragment key={talent.id}>
+            <Talent
               talent={talent}
               points={points}
               onClick={handleClick}
@@ -47,8 +46,7 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
             />
 
             {!!talent.requires.length &&
-              <Arrow 
-                key={`arrow-${talent.id}`}
+              <Arrow
                 from={talentsById[talent.requires[0].id]}
                 to={talent}
                 active={points > 0 || canLearn}

@@ -7,6 +7,8 @@ import { Tooltip } from './Tooltip'
 import { Talent } from './Talent'
 import { talentsById } from '../data/talents'
 import { Map } from 'immutable'
+import { SpellTooltip } from './SpellTooltip';
+import classNames from 'classnames'
 
 interface Props extends RouteComponentProps {
   //
@@ -38,7 +40,7 @@ const DEEP_WOUNDS = <Tooltip title="Deep Wounds" fixed>
 
 const Section: FC<any> = (props) => {
   return <div className="playground-section">
-    <div className="container">
+    <div className={classNames('container', `playground-section__${props.title.toLowerCase()}`)}>
       <h2>{props.title}</h2>
 
       {props.children}
@@ -152,6 +154,11 @@ export class Playground extends React.PureComponent<Props> {
             And even <a href="/warrior">link</a> to exciting places!
           </Tooltip>
 
+          <h3>With title and icon</h3>
+          <Tooltip title="Strongest Class in the World" icon="inv_pet_babymurlocs_blue">
+            <p className="yellow">And some description text here</p>
+          </Tooltip>
+
           <h3>Fixed width</h3>
           {DEEP_WOUNDS}
 
@@ -164,6 +171,12 @@ export class Playground extends React.PureComponent<Props> {
           {React.cloneElement(DEEP_WOUNDS, {
             fixed: false
           })}
+        </Section>
+
+        <Section title="SpellTooltip">
+          <SpellTooltip id={29086} />
+          <SpellTooltip id={20501} />
+          <SpellTooltip id={17793} />
         </Section>
       </div>
     )

@@ -6,22 +6,24 @@ interface Props {
   name?: string
   size?: 'small' | 'medium' | 'large'
   golden?: boolean
+  className?: string
 }
 
 const NOT_FOUND_ICON = 'inv_misc_questionmark'
 
-export const Icon: FC<Props> = ({ name: defaultName, size = 'medium', golden = false, children }) => {
+export const Icon: FC<Props> = (props) => {
+  const { name: defaultName, size = 'medium', golden = false, children } = props
   const [hasLoadedImage, setLoadedImage] = useState(false)
   const [fadeIn, setFadeIn] = useState(false)
   const [name, setName] = useState(defaultName)
 
   const bgSize = size !== 'small' ? 'large' : 'medium'
-  const url = `https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg`
+  const url = name && `https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg`
 
   const start = Date.now()
 
   useEffect(() => {
-    if (!name) return
+    if (!url) return
     const img = new Image()
     img.onload = () => {
       const loadTime = Date.now() - start
@@ -32,9 +34,9 @@ export const Icon: FC<Props> = ({ name: defaultName, size = 'medium', golden = f
     }
     img.onerror = () => setName(NOT_FOUND_ICON)
     img.src = url
-  }, [name, url, start])
+  }, [url, start])
 
-  const className = classNames('icon', `icon--${size}`, {
+  const className = classNames('icon', `icon--${size}`, props.className, {
     'icon--golden': golden,
     'icon--loaded': hasLoadedImage,
     'icon--fade-in': fadeIn,
@@ -42,7 +44,7 @@ export const Icon: FC<Props> = ({ name: defaultName, size = 'medium', golden = f
 
   return (
     <div className={className}>
-      {name && 
+      {url && 
         <div className="icon__bg" style={{ backgroundImage: `url(${url})` }} />
       }
       <div className="icon__frame" />
