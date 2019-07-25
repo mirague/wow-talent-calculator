@@ -26,7 +26,7 @@ export const TalentSlot: FC<Props> = (props) => {
   const containerClassNames = classNames('talent', {
     'talent--disabled': disabled && points === 0,
     'talent--available': !disabled && points < talent.ranks.length,
-    'talent--maxed': points >= talent.ranks.length || (points > 0 && disabled)
+    'talent--disabled-with-points': points >= talent.ranks.length || (points > 0 && disabled)
   })
 
   const pointsClassNames = classNames('point-label', {

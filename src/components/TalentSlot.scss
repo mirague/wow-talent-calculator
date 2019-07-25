@@ -19,7 +19,7 @@
     }
   }
 
-  &--maxed {
+  &--disabled-with-points {
     .talent__status::after {
       box-shadow: inset 0px 0px 6px 3px rgba($color-yellow, .8);
     }
