@@ -16,6 +16,13 @@ export const SORT_TALENTS = (a: TalentData, b: TalentData) => {
   return a.row - b.row
 }
 
+export const SORT_TALENTS_DESC = (a: TalentData, b: TalentData) => {
+  if (a.row === b.row) {
+    return b.col - a.col
+  }
+  return b.row - a.row
+}
+
 export const SORT_TALENTS_BY_SPEC = (a: TalentData, b: TalentData) => {
   const aSpec = talentToSpec[a.id]
   const bSpec = talentToSpec[b.id]

@@ -1,7 +1,8 @@
+import './TalentTree.scss'
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { Talent } from './Talent';
-import { getPointsInSpec, canLearnTalent, calcMeetsRequirements } from '../lib/tree';
+import { getPointsInSpec, canLearnTalent, calcMeetsRequirements, SORT_TALENTS_DESC } from '../lib/tree';
 import { talentsBySpec, specNames, talentsById, talentToSpec } from '../data/talents'
 import { Arrow } from './Arrow'
 
@@ -13,8 +14,7 @@ interface Props {
 }
 
 export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoints, onTalentPress }) => {
-  const talents = Object.values(talentsBySpec[specId])
-  const bgImg = require(`../images/specs/${specId}.jpg`)
+  const talents = Object.values(talentsBySpec[specId]).sort(SORT_TALENTS_DESC)
 
   const handleClick = useCallback(
     (talentId) => onTalentPress(specId, talentId, 1), 
@@ -25,50 +25,40 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
     [specId, onTalentPress]
   )
 
-  const arrows = talents
-    .filter((talent) => talent.requires.length)
-    .map((talent) => {
-      return <Arrow 
-        key={talent.id}
-        from={talentsById[talent.requires[0].id]}
-        to={talent}
-        active={knownTalents.get(talent.id, 0) > 0 || canLearnTalent(knownTalents, talent)}
-      />
-    })
-
   return (
     <div className="tree">
       <div className="tree__header">
         <h3>{specNames[specId]} ({getPointsInSpec(specId, knownTalents)})</h3>
       </div>
 
-      <div className="tree__body" style={{ backgroundImage: `url(${bgImg})` }}>
-        {talents.map((talent) => 
-          <Talent 
-            key={talent.id}
-            talent={talent}
-            points={knownTalents.get(talent.id, 0)}
-            onClick={handleClick}
-            onRightClick={handleRightClick}
-            disabled={availablePoints === 0 || !isAvailable(talent, knownTalents)}
-          />
-        )}
+      <div className="tree__body" style={{ backgroundImage: `url(${require(`../images/specs/${specId}.jpg`)})` }}>
+        {talents.map((talent) => {
+          const points = knownTalents.get(talent.id, 0)
+          const canLearn = canLearnTalent(knownTalents, talent)
 
-        {arrows}
+          return <React.Fragment>
+            <Talent 
+              key={talent.id}
+              talent={talent}
+              points={points}
+              onClick={handleClick}
+              onRightClick={handleRightClick}
+              disabled={availablePoints === 0 || !canLearn}
+            />
+
+            {!!talent.requires.length &&
+              <Arrow 
+                key={`arrow-${talent.id}`}
+                from={talentsById[talent.requires[0].id]}
+                to={talent}
+                active={points > 0 || canLearn}
+              />
+            }
+          </React.Fragment>
+        })}
       </div>
     </div>
   )
-}
-
-// move this somewhere else/revise this
-export const isAvailable = (talent: TalentData, knownTalents: Map<number, number>): boolean => {
-  // Dependent on other talents?
-  if (!calcMeetsRequirements(talent, knownTalents)) {
-    return false
-  }
-  const specId = talentToSpec[talent.id]
-  const pointsInSpec = getPointsInSpec(specId, knownTalents)
-  return talent.row * 5 <= pointsInSpec
 }
 
 ;(TalentTree as any).whyDidYouRender = true

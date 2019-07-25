@@ -63,4 +63,4 @@ export const Talent: FC<Props> = (props) => {
 
 Talent.defaultProps = defaultProps
 
-// ;(Talent as any).whyDidYouRender = true
+;(Talent as any).whyDidYouRender = true
