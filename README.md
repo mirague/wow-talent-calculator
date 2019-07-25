@@ -1,3 +1,11 @@
+
+<p align="center">
+  <a href="https://app.netlify.com/sites/wow-talents/deploys">
+    <img src="https://api.netlify.com/api/v1/badges/8058c7ec-b3b5-4b42-882f-fa7229a03205/deploy-status">
+  </a>
+</p>
+
+
 # React WoW Classic Talent Calculator
 - [React.js](https://reactjs.org/)
 - [TypeScript](https://www.typescriptlang.org/)
