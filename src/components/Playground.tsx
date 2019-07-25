@@ -4,6 +4,8 @@ import { ClassPicker } from './ClassPicker'
 import { RouteComponentProps } from 'react-router'
 import { Icon } from './Icon';
 import { Tooltip } from './Tooltip';
+import { TalentSlot } from './TalentSlot';
+import { talentsById } from '../data/talents';
 
 interface Props extends RouteComponentProps {
   //
@@ -63,6 +65,35 @@ export class Playground extends React.PureComponent<Props> {
           <h3>Large Icons</h3>
           <div className="inline-items">
             {iconNames.map((n) => <Icon key={n} name={n} size="large" />)}
+          </div>
+        </Section>
+
+        <Section title="TalentSlot">
+          <div className="inline-items">
+            <TalentSlot
+              talent={talentsById[181]}
+              disabled
+            />
+
+            <TalentSlot
+              talent={talentsById[181]}
+            />
+
+            <TalentSlot
+              talent={talentsById[181]}
+              points={3}
+            />
+
+            <TalentSlot
+              talent={talentsById[181]}
+              points={5}
+            />
+
+            <TalentSlot
+              talent={talentsById[181]}
+              points={3}
+              disabled
+            />
           </div>
         </Section>
 

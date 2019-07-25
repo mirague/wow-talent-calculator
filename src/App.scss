@@ -64,6 +64,24 @@ a {
   margin-right: 1em;
   background-color: #111;
 
+  .talent {
+    position: absolute;
+
+    // Rows
+    @for $i from 0 through 6 {
+      &[data-row="#{$i}"] {
+        top: $row-offset + (($i) * $row-distance);
+      }
+    }
+
+    // Columns
+    @for $i from 0 through 3 {
+      &[data-col="#{$i}"] { 
+        left: $col-offset + ($col-distance * $i); 
+      }
+    }
+  }
+
   &:last-child {
     margin-right: 0;
   }

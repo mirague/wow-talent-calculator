@@ -2,45 +2,31 @@ import './TalentSlot.scss'
 import React, { FC } from 'react'
 import { Icon } from './Icon'
 import classNames from 'classnames'
-import { Map } from 'immutable';
-import { getPointsInSpec, calcMeetsRequirements } from '../lib/tree';
 
 interface Props {
   talent: TalentData
-  specId: number
-  availablePoints: number
-  /** All spent talents */
-  knownTalents: Map<number, number>
-  /** Disabled override */
+  specId?: number
+  points?: number
   disabled?: boolean
   onClick?: (talentId: number) => void
   onRightClick?: (talentId: number) => void
 }
 
 const defaultProps: Partial<Props> = {
+  points: 0,
+  disabled: false,
   onClick: () => undefined,
   onRightClick: () => undefined
 }
 
-const isAvailable = (talent: TalentData, specId: number, knownTalents: Map<number, number>): boolean => {
-  // Dependent on other talents?
-  if (!calcMeetsRequirements(talent, knownTalents)) {
-    return false
-  }
-  const pointsInSpec = getPointsInSpec(specId, knownTalents)
-  return talent.row * 5 <= pointsInSpec
-}
-
 export const TalentSlot: FC<Props> = (props) => {
-  const { talent, specId, knownTalents, availablePoints } = props
-  const points = knownTalents.get(talent.id, 0)
-  const showPoints = points > 0 || availablePoints > 0
-  const disabled = props.disabled || !showPoints || !isAvailable(talent, specId, knownTalents)
+  const { talent, points, disabled } = props
+  const showPoints = !disabled || points > 0
 
   const containerClassNames = classNames('talent', {
-    'talent--disabled': !!disabled,
+    'talent--disabled': disabled && points === 0,
     'talent--available': !disabled && points < talent.ranks.length,
-    'talent--maxed': points >= talent.ranks.length || (points > 0 && availablePoints === 0)
+    'talent--maxed': points >= talent.ranks.length || (points > 0 && disabled)
   })
 
   const pointsClassNames = classNames('point-label', {
@@ -65,7 +51,7 @@ export const TalentSlot: FC<Props> = (props) => {
       <div className="talent__status" />
       <Icon name={talent.icon} size="medium" />
 
-      {showPoints && !disabled &&
+      {showPoints &&
         <div className={pointsClassNames}>
           {points}
           /{talent.ranks.length}

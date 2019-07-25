@@ -32,7 +32,7 @@ export const Icon: FC<Props> = ({ name: defaultName, size = 'medium', golden = f
     }
     img.onerror = () => setName(NOT_FOUND_ICON)
     img.src = url
-  }, [name, url])
+  }, [name, url, start])
 
   const className = classNames('icon', `icon--${size}`, {
     'icon--golden': golden,

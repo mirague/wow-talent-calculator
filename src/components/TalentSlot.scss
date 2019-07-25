@@ -1,7 +1,7 @@
 @import "../sass/config";
 
 .talent {
-  position: absolute;
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: 5px;
@@ -11,7 +11,6 @@
 
   &--available {
     .talent__status::after {
-      // background-color: rgba($color-green, .8);
       box-shadow: inset 0px 0px 6px 3px rgba($color-green, .8);
     }
 
@@ -35,20 +34,6 @@
 
     .talent__status { 
       opacity: .7;
-    }
-  }
-
-  // Rows
-  @for $i from 0 through 6 {
-    &[data-row="#{$i}"] {
-      top: $row-offset + (($i) * $row-distance);
-    }
-  }
-
-  // Columns
-  @for $i from 0 through 3 {
-    &[data-col="#{$i}"] { 
-      left: $col-offset + ($col-distance * $i); 
     }
   }
 

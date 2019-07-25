@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { TalentSlot } from './TalentSlot';
-import { getPointsInSpec, canLearnTalent } from '../lib/tree';
-import { talentsBySpec, specNames, talentsById } from '../data/talents'
+import { getPointsInSpec, canLearnTalent, calcMeetsRequirements } from '../lib/tree';
+import { talentsBySpec, specNames, talentsById, talentToSpec } from '../data/talents'
 import { Arrow } from './Arrow'
 
 interface Props {
@@ -46,12 +46,11 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
         {talents.map((talent) => 
           <TalentSlot 
             key={talent.id}
-            specId={specId}
             talent={talent}
-            availablePoints={availablePoints}
-            knownTalents={knownTalents}
+            points={knownTalents.get(talent.id, 0)}
             onClick={handleClick}
             onRightClick={handleRightClick}
+            disabled={availablePoints === 0 || !isAvailable(talent, knownTalents)}
           />
         )}
 
@@ -59,6 +58,17 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
       </div>
     </div>
   )
+}
+
+// move this somewhere else/revise this
+export const isAvailable = (talent: TalentData, knownTalents: Map<number, number>): boolean => {
+  // Dependent on other talents?
+  if (!calcMeetsRequirements(talent, knownTalents)) {
+    return false
+  }
+  const specId = talentToSpec[talent.id]
+  const pointsInSpec = getPointsInSpec(specId, knownTalents)
+  return talent.row * 5 <= pointsInSpec
 }
 
 ;(TalentTree as any).whyDidYouRender = true
