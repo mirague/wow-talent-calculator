@@ -2,7 +2,6 @@
   "name": "talent-calculator",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://mirague.github.io/wow-talent-calculator",
   "dependencies": {
     "@types/jest": "24.0.15",
     "@types/node": "12.6.2",
