@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 
 const App: React.FC = () => {
   return (
-    <Router basename={process.env.NODE_ENV === 'production' ? '/wow-talent-calculator' : ''}>
+    <Router>
     {/* <Router basename={process.env.NODE_ENV !== 'development' ? '%PUBLIC_URL%' : ''}> */}
       <div className="App">
         <Switch>
