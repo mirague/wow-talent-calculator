@@ -15,7 +15,7 @@
     &:after {
       content: '';
       padding: 3px;
-      background: url('../images/tooltip-background.png');
+      background: url('../../images/tooltip-background.png');
       background-position: top right;
     }
   }
@@ -23,7 +23,7 @@
   &__body {
     min-height: 2px;
     padding: 8px 3px 2px 9px;
-    background: url('../images/tooltip-background.png');
+    background: url('../../images/tooltip-background.png');
     background-position: top left;
   }
 
@@ -35,14 +35,14 @@
       content: '';
       flex: 1;
       padding: 3px;
-      background: url('../images/tooltip-background.png');
+      background: url('../../images/tooltip-background.png');
       background-position: bottom left;
     }
 
     &:after {
       content: '';
       padding: 3px;
-      background: url('../images/tooltip-background.png');
+      background: url('../../images/tooltip-background.png');
       background-position: bottom right;
     }
   }
@@ -57,7 +57,6 @@
   }
 
   &--fixed {
-    
     .tooltip__inner {
       width: 100%;
       width: 320px;

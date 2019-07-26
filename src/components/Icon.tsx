@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import './Icon.scss'
 
@@ -11,8 +11,8 @@ interface Props {
 
 const NOT_FOUND_ICON = 'inv_misc_questionmark'
 
-export const Icon: FC<Props> = (props) => {
-  const { name: defaultName, size = 'medium', golden = false, children } = props
+export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { name: defaultName, size = 'medium', golden = false, children, ...rest } = props
   const [hasLoadedImage, setLoadedImage] = useState(false)
   const [fadeIn, setFadeIn] = useState(false)
   const [name, setName] = useState(defaultName)
@@ -43,7 +43,7 @@ export const Icon: FC<Props> = (props) => {
   })
 
   return (
-    <div className={className}>
+    <div className={className} ref={ref} {...rest}>
       {url && 
         <div className="icon__bg" style={{ backgroundImage: `url(${url})` }} />
       }
@@ -51,4 +51,4 @@ export const Icon: FC<Props> = (props) => {
       {children}
     </div>
   )
-}
+})

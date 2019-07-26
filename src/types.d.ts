@@ -50,3 +50,5 @@ interface Talent {
 }
 
 type TalentClickHandler = (specId: number, talentId: number, modifier: 1 | -1) => void
+
+type TooltipPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'left' | 'right'

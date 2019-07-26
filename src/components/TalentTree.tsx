@@ -2,7 +2,7 @@ import './TalentTree.scss'
 import React, { useCallback } from 'react'
 import { Map }  from 'immutable'
 import { Talent } from './Talent';
-import { getPointsInSpec, canLearnTalent, SORT_TALENTS_DESC } from '../lib/tree';
+import { getPointsInSpec, canLearnTalent, SORT_TALENTS_DESC, getUnmetRequirements } from '../lib/tree';
 import { talentsBySpec, specNames, talentsById } from '../data/talents'
 import { Arrow } from './Arrow'
 
@@ -15,6 +15,7 @@ interface Props {
 
 export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoints, onTalentPress }) => {
   const talents = Object.values(talentsBySpec[specId]).sort(SORT_TALENTS_DESC)
+  const pointsInSpec = getPointsInSpec(specId, knownTalents)
 
   const handleClick = useCallback(
     (talentId) => onTalentPress(specId, talentId, 1), 
@@ -28,18 +29,20 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
   return (
     <div className="tree">
       <div className="tree__header">
-        <h3>{specNames[specId]} ({getPointsInSpec(specId, knownTalents)})</h3>
+        <h3>{specNames[specId]} ({pointsInSpec})</h3>
       </div>
 
       <div className="tree__body" style={{ backgroundImage: `url(${require(`../images/specs/${specId}.jpg`)})` }}>
         {talents.map((talent) => {
           const points = knownTalents.get(talent.id, 0)
           const canLearn = canLearnTalent(knownTalents, talent)
+          const unmetRequirements = getUnmetRequirements(talent, knownTalents, pointsInSpec, specNames[specId])
 
           return <React.Fragment key={talent.id}>
             <Talent
               talent={talent}
               points={points}
+              errors={unmetRequirements}
               onClick={handleClick}
               onRightClick={handleRightClick}
               disabled={availablePoints === 0 || !canLearn}

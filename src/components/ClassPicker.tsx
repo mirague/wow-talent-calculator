@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { classByName } from '../data/classes'
 import { Icon } from './Icon'
 import classNames from 'classnames'
+import { Controller, Trigger, Tooltip } from './Tooltip';
 
 interface Props {
   /** Name of the selected class, lowercase */
@@ -31,13 +32,18 @@ export class ClassPicker extends React.PureComponent<Props> {
     return (
       <ul className={cn}>
       {Object.values(classByName).map((c) => 
-        <li key={c.id} className={classNameForItem(c, selected)}>
-          <Link to={`/${c.name.toLowerCase()}`} title={c.name}>
-            <Icon 
-              name={c.icon} 
-              golden={selected === c.name.toLowerCase()}
-            />
-          </Link>
+        <li key={c.id} className={classNameForItem(c, selected)}>        
+          <Controller>
+            <Trigger>
+              <Link to={`/${c.name.toLowerCase()}`}>
+                <Icon 
+                  name={c.icon} 
+                  golden={selected === c.name.toLowerCase()}
+                />
+              </Link>
+            </Trigger>
+            <Tooltip>{c.name}</Tooltip>
+          </Controller>
         </li>
       )}
     </ul>

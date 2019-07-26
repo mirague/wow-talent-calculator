@@ -2,9 +2,11 @@ import { Map } from 'immutable'
 import { 
   talentsBySpec, 
   talentToSpec, 
-  talentsBySpecArray 
+  talentsBySpecArray, 
+  talentsById
 } from '../data/talents';
 import { classByName } from '../data/classes'
+import spells from '../data/spells.json'
 
 export const MAX_POINTS = 51
 export const MAX_ROWS = 7
@@ -57,6 +59,31 @@ export function calcMeetsRequirements(talent: TalentData, known: Map<number, num
     if (!prev) return false
     return known.get(req.id, 0) >= req.qty
   }, true)
+}
+
+export function getNameForTalent(talentId: number): string {
+  const spell: SpellData = spells[talentsById[talentId].ranks[0]]
+  if (spell) return spell.name
+  return 'Unknown'
+}
+
+export function getUnmetRequirements(talent: TalentData, known: Map<number, number>, pointsInSpec: number, specName: string): string {
+  const missing = []
+  const dependency = talent.requires[0]
+  if (dependency && known.get(dependency.id, 0) < dependency.qty) {
+    missing.push(
+      `Requires ${dependency.qty} point${dependency.qty !== 1 ? 's' : ''} in ${getNameForTalent(dependency.id)}`
+    )
+  }
+
+  if (talent.row * 5 > pointsInSpec) {
+    missing.push(`Requires ${talent.row * 5} points in ${specName}`)
+  }
+
+  // Hackfix: Returning an Array will cause the prop to change everytime, causing re-renders on all
+  // of the components. Returning a string makes the shallow compare easier and prevents re-renders.
+  // Could add Memoization to this function, but not sure of another "better" more "React" way..
+  return missing.join('_')
 }
 
 export const canLearnTalent = (known: Map<number, number>, talent: TalentData): boolean => {

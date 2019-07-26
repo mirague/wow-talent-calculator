@@ -65,3 +65,11 @@ footer {
   font-size: 12px;
   text-align: center;
 }
+
+#tooltip-root {
+  position: absolute;
+  z-index: $z-index-tooltips;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
