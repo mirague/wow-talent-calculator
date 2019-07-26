@@ -3,9 +3,11 @@
 - [ ] SCSS: Normalize
 - [ ] General: Add redux
 - [ ] General: Responsive on mobile
+  - [ ] Tooltips on mobile 
 - [ ] Talent tree: Reset button per tree (?)
 - [ ] Fix: Initial load `pointString` validation (make sure all talents are valid and their deps are met)
 - [ ] Fix: Navigating between talent links for same class does not trigger re-render
+- [ ] Nice to have: Support multiple positions for tooltip (currently only `top-right` with fallbacks based on viewport)
 - [x] General: Talent tooltips
 - [x] Fix: Arrow should start underneath the icon
 - [x] Talent tree: Arrows for dependencies
