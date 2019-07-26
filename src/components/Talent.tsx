@@ -65,6 +65,7 @@ export class Talent extends React.PureComponent<Props> {
             }
           </div>
         </Trigger>
+        
         <TalentTooltip talent={talent} points={points} errors={errors}>
           {!disabled && points < talent.ranks.length && <p className="green tight">Click to learn</p>}
           {points > 0 && <p className="green">Right-click to unlearn</p>}

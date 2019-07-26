@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { createPortal } from 'react-dom'
 import { Map } from 'immutable'
+import { Trigger } from './Trigger';
 
 const TOOLTIP_ROOT = document.getElementById('tooltip-root')
 
@@ -76,8 +77,7 @@ export class Controller extends React.PureComponent<Props> {
     const { isVisible, style } = this.state
 
     return React.Children.map(children, (child: React.ReactElement) => {
-      const name = (child.type as any).name
-      if (name === 'Trigger') {
+      if (child.type === Trigger) {
         return React.cloneElement(child, {
           ref: this.trigger,
           resize: this.updateTriggerRect,
