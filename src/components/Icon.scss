@@ -56,7 +56,7 @@
 
   &--golden {
     .icon__frame {
-      background-image: url('../images/icons/large/gold.png');
+      background-image: url('../images/icon-meta/large/gold.png');
     }
   }
 
@@ -78,7 +78,7 @@
 
   &__frame {
     position: absolute;
-    background-image: url('../images/icons/large/default.png');
+    background-image: url('../images/icon-meta/large/default.png');
     background-repeat: no-repeat;
     background-size: contain;
   }

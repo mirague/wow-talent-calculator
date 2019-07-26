@@ -18,7 +18,7 @@ export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   const [name, setName] = useState(defaultName)
 
   const bgSize = size !== 'small' ? 'large' : 'medium'
-  const url = name && `https://wow.zamimg.com/images/wow/icons/${bgSize}/${name}.jpg`
+  const url = name && iconUrl(name, bgSize)
 
   const start = Date.now()
 
@@ -52,3 +52,10 @@ export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
     </div>
   )
 })
+
+const iconUrl = (name: string, size: string): string => {
+  if (name === NOT_FOUND_ICON) {
+    return require(`../images/icons/${size}/${name}.jpg`)
+  }
+  return `https://wow.zamimg.com/images/wow/icons/${size}/${name}.jpg`
+}
