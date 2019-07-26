@@ -1,4 +1,3 @@
-// import '../src/types'
 import { talentsById } from '../data/talents'
 import fetch from 'node-fetch'
 import fs from 'fs'
