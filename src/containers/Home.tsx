@@ -32,7 +32,7 @@ export default class Home extends React.PureComponent<Props> {
     }
 
     return (
-      <div className="index">
+      <div className="container index">
         <ClassPicker 
           className="index__class-picker"
           center 

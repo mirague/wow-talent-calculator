@@ -1,12 +1,8 @@
 @import "sass/config";
+@import "sass/normalize";
 
-.main {
-  min-height: 85vh;
-}
-
-html, body {
-  padding: 0;
-  height: 0;
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 
 body {
@@ -15,7 +11,6 @@ body {
   font-family: Verdana;
 }
 
-// Normalize etc.
 ul {
   margin: 0;
 }
@@ -26,19 +21,6 @@ a {
 
   &:hover {
     color: lighten(pink, 50%);
-  }
-}
-
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.inline-items {
-  display: flex;
-
-  & > * {
-    margin-right: 1em;
   }
 }
 
@@ -53,15 +35,28 @@ a {
   }
 }
 
-.calculator {
-  &__points {
-    color: white;
-    text-align: center;
-  }
+.App {
+  min-height: 100vh;
 }
 
-.index__class-picker {
-  margin: 2em 0;
+main {
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1em;
+}
+
+.inline-items {
+  display: flex;
+
+  & > * {
+    margin-right: 1em;
+  }
 }
 
 footer {

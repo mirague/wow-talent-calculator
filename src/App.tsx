@@ -19,12 +19,12 @@ const App: React.FC = () => {
     <Router>
     {/* <Router basename={process.env.NODE_ENV !== 'development' ? '%PUBLIC_URL%' : ''}> */}
       <div className="App">
-        <div className="main">
+        <main>
           <Switch>
             <Route exact path="/playground" component={LoadablePlayground} />
             <Route path="/:selectedClass?/:pointString?" component={LoadableHome} />
           </Switch>
-        </div>
+        </main>
 
         <footer>
           <Link to="/">Home</Link>

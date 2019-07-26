@@ -1,3 +1,4 @@
+import './Calculator.scss'
 import React from 'react'
 import { Map } from 'immutable'
 import { TalentTree } from './TalentTree'
