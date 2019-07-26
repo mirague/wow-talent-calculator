@@ -4,7 +4,7 @@ import { classes } from '../data/classes'
 import { talentsById } from '../data/talents'
 import request from 'request'
 
-const ICONS_FOLDER = './src/images/icons'
+const ICONS_FOLDER = './public/images/icons'
 const SIZES = ['medium', 'large']
 
 const onlyUnique = (value, index, self) => self.indexOf(value) === index

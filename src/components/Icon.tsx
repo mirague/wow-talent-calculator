@@ -62,7 +62,7 @@ export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 const iconUrl = (name: string, size: string): string => {
   try {
-    return require(`../images/icons/${size}/${name}.jpg`)
+    return `${process.env.PUBLIC_URL}/images/icons/${size}/${name}.jpg`
   } catch (e) {
     return `https://wow.zamimg.com/images/wow/icons/${size}/${name}.jpg`
   }
