@@ -12,7 +12,14 @@ interface Props {
 const NOT_FOUND_ICON = 'inv_misc_questionmark'
 
 export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-  const { name: defaultName, size = 'medium', golden = false, children, ...rest } = props
+  const { 
+    name: defaultName, 
+    size = 'medium', 
+    golden = false, 
+    children, 
+    className, 
+    ...rest 
+  } = props
   const [hasLoadedImage, setLoadedImage] = useState(false)
   const [fadeIn, setFadeIn] = useState(false)
   const [name, setName] = useState(defaultName)
@@ -36,14 +43,14 @@ export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
     img.src = url
   }, [url, start])
 
-  const className = classNames('icon', `icon--${size}`, props.className, {
+  const cn = classNames('icon', `icon--${size}`, className, {
     'icon--golden': golden,
     'icon--loaded': hasLoadedImage,
     'icon--fade-in': fadeIn,
   })
 
   return (
-    <div className={className} ref={ref} {...rest}>
+    <div className={cn} ref={ref} {...rest}>
       {url && 
         <div className="icon__bg" style={{ backgroundImage: `url(${url})` }} />
       }
