@@ -60,6 +60,7 @@ export const Icon = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
   )
 })
 
+// TODO: Fallback is broken due to no longer using require()
 const iconUrl = (name: string, size: string): string => {
   try {
     return `${process.env.PUBLIC_URL}/images/icons/${size}/${name}.jpg`
