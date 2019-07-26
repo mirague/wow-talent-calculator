@@ -1,13 +1,13 @@
 import './Playground.scss'
 import React, { FC } from 'react'
-import { ClassPicker } from './ClassPicker'
+import { ClassPicker } from '../components/ClassPicker'
 import { RouteComponentProps } from 'react-router'
-import { Icon } from './Icon'
-import { Tooltip } from './Tooltip'
-import { Talent } from './Talent'
+import { Icon } from '../components/Icon'
+import { Tooltip } from '../components/Tooltip'
+import { Talent } from '../components/Talent'
 import { talentsById } from '../data/talents'
 import { Map } from 'immutable'
-import { SpellTooltip } from './SpellTooltip';
+import { SpellTooltip } from '../components/SpellTooltip';
 import classNames from 'classnames'
 
 interface Props extends RouteComponentProps {
@@ -48,7 +48,7 @@ const Section: FC<any> = (props) => {
   </div>
 }
 
-export class Playground extends React.PureComponent<Props> {
+export default class Playground extends React.PureComponent<Props> {
   static whyDidYouRender = true
 
   state = {

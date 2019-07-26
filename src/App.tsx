@@ -1,18 +1,30 @@
 import React from 'react'
 import './App.scss'
-import { IndexRoute } from './components/IndexRoute'
-import { Playground } from './components/Playground'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import Loadable from 'react-loadable'
+import { PageLoader } from './components/PageLoader'
+
+const LoadableHome = Loadable({
+  loader: () => import('./containers/Home'),
+  loading: PageLoader
+})
+
+const LoadablePlayground = Loadable({
+  loader: () => import('./containers/Playground'),
+  loading: PageLoader
+})
 
 const App: React.FC = () => {
   return (
     <Router>
     {/* <Router basename={process.env.NODE_ENV !== 'development' ? '%PUBLIC_URL%' : ''}> */}
       <div className="App">
-        <Switch>
-          <Route exact path="/playground" component={Playground} />
-          <Route path="/:selectedClass?/:pointString?" component={IndexRoute} />
-        </Switch>
+        <div className="main">
+          <Switch>
+            <Route exact path="/playground" component={LoadablePlayground} />
+            <Route path="/:selectedClass?/:pointString?" component={LoadableHome} />
+          </Switch>
+        </div>
 
         <footer>
           <Link to="/">Home</Link>

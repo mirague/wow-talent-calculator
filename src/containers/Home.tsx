@@ -1,6 +1,6 @@
 import React from 'react'
-import { Calculator } from './Calculator'
-import { ClassPicker } from './ClassPicker'
+import { Calculator } from '../components/Calculator'
+import { ClassPicker } from '../components/ClassPicker'
 import { match } from 'react-router-dom'
 import { RouteComponentProps } from 'react-router'
 import { decodeKnownTalents } from '../lib/tree'
@@ -13,7 +13,7 @@ interface Props extends RouteComponentProps {
   }>
 }
 
-export class IndexRoute extends React.PureComponent<Props> {
+export default class Home extends React.PureComponent<Props> {
   static whyDidYouRender = true
 
   componentDidMount() {
