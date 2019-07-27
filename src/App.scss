@@ -65,6 +65,15 @@ footer {
   text-align: center;
 }
 
+.page-loader {
+  display: flex;
+  height: 85vh;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn 3s forwards;
+}
+
 #tooltip-root {
   position: absolute;
   z-index: $z-index-tooltips;

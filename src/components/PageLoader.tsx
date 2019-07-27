@@ -5,11 +5,11 @@ export const PageLoader: FC<Props> = ({ isLoading, pastDelay, error, retry, time
   const retryButton = <button onClick={retry}>retry</button>
 
   if (error) {
-    return <div>Something went awry... do you wish to {retryButton}?</div>
+    return <div className="page-loader">Something went awry... do you wish to {retryButton}?</div>
   } else if (timedOut) {
-    return <div>Taking some time... {retryButton}?</div>
+    return <div className="page-loader">Taking some time... {retryButton}?</div>
   } else if (pastDelay) {
-    return <div>Loading...</div>
+    return <div className="page-loader">Loading...</div>
   } else {
     return null
   }
