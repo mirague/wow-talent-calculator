@@ -55,7 +55,10 @@ export class Calculator extends React.PureComponent<Props> {
         </div>
 
         <div className="calculator__points">
-          Points: {availablePoints}
+          {availablePoints < 51 && 
+            <span className="subtle">Required level: {60 - availablePoints}</span>
+          }
+          <span>Talent points: {availablePoints}</span>
         </div>
 
         <h4>Quick links</h4>

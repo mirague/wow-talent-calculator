@@ -26,6 +26,7 @@ a {
 
 .yellow { color: $color-yellow; }
 .green { color: $quality-2; }
+.subtle { color: $quality-0; }
 
 .tight {
   margin-bottom: 0;
@@ -34,6 +35,8 @@ a {
     margin-top: 0;
   }
 }
+
+
 
 .App {
   min-height: 100vh;
@@ -46,7 +49,7 @@ main {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 0 1em;
 }

@@ -1,7 +1,14 @@
 .calculator {
   &__points {
+    padding: 1em;
     color: white;
-    text-align: center;
+    text-align: right;
+    border-radius: 5px;
+    background: #222;
+
+    span {
+      margin-left: 2em;
+    }
   }
 }
 

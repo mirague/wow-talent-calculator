@@ -7,6 +7,7 @@ import { talentsBySpec, specNames, talentsById } from '../data/talents'
 import { Arrow } from './Arrow'
 import { resetSpec } from '../store/calculator/actions'
 import { connect } from 'react-redux';
+import { Controller, Tooltip, Trigger } from './Tooltip'
 
 interface Props {
   specId: number
@@ -38,7 +39,12 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
       <div className="tree__header">
         <h3>{specNames[specId]} ({pointsInSpec})</h3>
         {pointsInSpec > 0 && 
-          <div className="tree__reset" onClick={handleResetSpec}>x</div>
+          <Controller>
+            <Trigger>
+              <div className="tree__reset" onClick={handleResetSpec}>x</div>
+            </Trigger>
+            <Tooltip>Reset spec</Tooltip>
+          </Controller>
         }
       </div>
 
