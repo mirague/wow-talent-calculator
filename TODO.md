@@ -2,6 +2,7 @@
 
 - [ ] Fix: Tooltips cause horizontal scroll on less-wide screens. Investigate.
 
+- [ ] Move routing logic from `Home` into `Calculator`
 - [ ] Responsiveness:
   - [ ] Tooltips on mobile need different UX
 - [ ] Tooltips: 

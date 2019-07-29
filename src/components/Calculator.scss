@@ -1,4 +1,6 @@
 .calculator {
+  animation: fadeIn .4s ease-out;
+
   &__points {
     padding: 1em;
     color: white;

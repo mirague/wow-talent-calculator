@@ -13,7 +13,7 @@ const isSizeMissing = (icon) => (size): boolean => !fs.existsSync(getPath(icon, 
 
 const getIconNames = (): string[] => {
   return [
-    // 'inv_misc_questionmark',
+    'inv_misc_questionmark',
     ...Object.values(spells).map(getIcon),
     ...Object.values(classes).map(getIcon),
     ...Object.values(talentsById).map(getIcon)
