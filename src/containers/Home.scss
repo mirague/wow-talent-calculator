@@ -6,6 +6,7 @@
     &--highlight {
       transition: all .4s ease-out;
       transform: translateY(35vh);
+      animation: fadeIn 1s ease-out;
     }
   }
 
