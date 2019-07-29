@@ -47,7 +47,7 @@ export class Home extends React.PureComponent<Props> {
         if (!this.props.points.equals(decoded)) {
           this.props.setPoints(decoded)
         }
-      } else if (prevProps.points !== this.props.points) {
+      } else if (prevProps.points !== this.props.points && this.props.classId) {
         // Points map changed, update the URL
         this.updateURL(this.props.points)
       }
