@@ -14,8 +14,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-loadable": "^5.5.0",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
     "typescript": "3.5.3"
   },
   "scripts": {
@@ -47,11 +49,13 @@
     "@types/cheerio": "^0.22.12",
     "@types/node-fetch": "^2.5.0",
     "@types/react-loadable": "^5.5.1",
+    "@types/react-redux": "^7.1.1",
     "@types/request": "^2.48.2",
     "@welldone-software/why-did-you-render": "^3.2.1",
     "cheerio": "^1.0.0-rc.3",
     "gh-pages": "^2.0.1",
     "node-fetch": "^2.6.0",
+    "redux-devtools": "^3.5.0",
     "request": "^2.88.0",
     "ts-node": "^8.3.0"
   }

@@ -1,5 +1,5 @@
-import React from 'react'
 import './App.scss'
+import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import Loadable from 'react-loadable'
 import { PageLoader } from './components/PageLoader'
@@ -17,7 +17,6 @@ const LoadablePlayground = Loadable({
 const App: React.FC = () => {
   return (
     <Router>
-    {/* <Router basename={process.env.NODE_ENV !== 'development' ? '%PUBLIC_URL%' : ''}> */}
       <div className="App">
         <main>
           <Switch>

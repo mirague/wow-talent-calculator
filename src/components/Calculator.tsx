@@ -2,21 +2,18 @@ import './Calculator.scss'
 import React from 'react'
 import { Map } from 'immutable'
 import { TalentTree } from './TalentTree'
-import { 
-  modifyTalentPoint, 
-  calcAvailablePoints,
-  encodeKnownTalents,
-} from '../lib/tree'
-import { talentsBySpec } from '../data/talents'
-import { classByName } from '../data/classes'
-import { History } from 'history'
-// import { debugPrintKnown } from '../lib/debug'
+import { calcAvailablePoints } from '../lib/tree'
+import { classById } from '../data/classes'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addPoint, removePoint } from '../store/calculator/actions'
+import { Points } from '../store/calculator/types'
 
 interface Props {
-  selectedClass: string
-  history: History
-  initialTalents?: Map<number, number>
+  classId: number
+  points: Points
+  addPoint: typeof addPoint
+  removePoint: typeof removePoint
 }
 
 const EMPTY_TALENTS = Map<number, number>()
@@ -28,46 +25,19 @@ export class Calculator extends React.PureComponent<Props> {
     knownTalents: EMPTY_TALENTS
   }
 
-  componentDidMount() {
-    if (this.props.initialTalents) {
-      this.setState({ knownTalents: this.props.initialTalents })
-      this.updateURL(this.props.initialTalents)
-    }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.selectedClass !== this.props.selectedClass) {
-      this.setState({ 
-        knownTalents: EMPTY_TALENTS 
-      })
-    }
-  }
-
-  updateURL(knownTalents: Map<number, number>) {
-    const { selectedClass } = this.props
-    const pointString = encodeKnownTalents(knownTalents, selectedClass)
-    this.props.history.replace(`/${selectedClass}` + (pointString ? `/${pointString}` : ''))
-  }
-  
   handleTalentPress = (specId: number, talentId: number, modifier: 1 | -1) => {
-    const talent = talentsBySpec[specId][talentId]
-    console.log('Clicked talent: ', talentId)
-
-    const newKnownTalents = modifyTalentPoint(this.state.knownTalents, talent, modifier)
-    if (newKnownTalents !== this.state.knownTalents) {
-      this.updateURL(newKnownTalents)
+    if (modifier === 1) {
+      this.props.addPoint(talentId)
+    } else {
+      this.props.removePoint(talentId)
     }
-    this.setState({ knownTalents: newKnownTalents })
-
-    // Debug
-    // debugPrintKnown(newKnownTalents)
   }
 
   render() {
-    const { selectedClass } = this.props
-    const { knownTalents } = this.state
+    const { classId } = this.props
+    const knownTalents = this.props.points
 
-    const classData = classByName[selectedClass]
+    const classData = classById[classId]
     const availablePoints = calcAvailablePoints(knownTalents)
 
     return (
@@ -99,3 +69,10 @@ export class Calculator extends React.PureComponent<Props> {
   }
 }
 
+export default connect(
+  null,
+  {
+    addPoint,
+    removePoint
+  }
+)(Calculator)

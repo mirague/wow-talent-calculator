@@ -5,7 +5,7 @@ import {
   talentsBySpecArray, 
   talentsById
 } from '../data/talents';
-import { classByName } from '../data/classes'
+import { classById } from '../data/classes'
 import spells from '../data/spells.json'
 
 export const MAX_POINTS = 51
@@ -204,9 +204,9 @@ export const modifyTalentPoint = (known: Map<number, number>, talent: TalentData
 /**
  * Encodes a Map of known talents into a URL-friendly string.
  */
-export function encodeKnownTalents(known: Map<number, number>, className: string): string {
+export function encodeKnownTalents(known: Map<number, number>, classId: number): string {
   let string = ''
-  const { specs } = classByName[className]
+  const { specs } = classById[classId]
   for (let i = 0; i < specs.length; i++) {
     const specId = specs[i]
     const talents = talentsBySpecArray[specId].sort(SORT_TALENTS)
@@ -222,8 +222,8 @@ export function encodeKnownTalents(known: Map<number, number>, className: string
 /**
  * Decodes a string of points into a Map of talents.
  */
-export function decodeKnownTalents(pointString: string, className: string): Map<number, number> {
-  const { specs } = classByName[className]
+export function decodeKnownTalents(pointString: string, classId: number): Map<number, number> {
+  const { specs } = classById[classId]
   let known = Map<number, number>()
 
   // TODO: Make sure we validate the point string

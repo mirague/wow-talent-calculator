@@ -1,12 +1,8 @@
 # TODO
 
 - [ ] Fix: Initial load `pointString` validation (make sure all talents are valid and their deps are met)
-- [ ] Fix: Navigating between talent links for same class does not trigger re-render
+- [ ] Fix: Tooltips cause horizontal scroll on less-wide screens. Investigate.
 
-- [ ] Styling:
-  - [ ] SCSS: Normalize
-- [ ] General:
-  - [ ] Add redux
 - [ ] Responsiveness:
   - [ ] Tooltips on mobile need different UX
 - [ ] Talent tree: 
