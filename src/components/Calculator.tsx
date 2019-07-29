@@ -60,13 +60,6 @@ export class Calculator extends React.PureComponent<Props> {
           }
           <span>Talent points: {availablePoints}</span>
         </div>
-
-        <h4>Quick links (TODO)</h4>
-        <ul>
-          <li><Link to="/shaman/-5505000055523051-55">Shaman test</Link></li>
-          <li><Link to="/shaman/-5595000055523051-55">Shaman test broken</Link></li>
-          <li><Link to="/rogue/325323125551351-3253552122555155231-55225313333212151">Full Rogue (shouldn't be possible)</Link></li>
-        </ul>
       </div>
     )
   }
