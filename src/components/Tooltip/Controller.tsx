@@ -49,14 +49,14 @@ export class Controller extends React.PureComponent<Props> {
     this.setState({ isVisible: false })
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.state.isVisible) {
       const { width, height } = (ReactDOM.findDOMNode(this.tooltip.current) as HTMLElement).getBoundingClientRect()
       const { style, tooltipDimensions } = this.state
 
       this.setState({
         tooltipDimensions: tooltipDimensions.merge({ width, height }),
-        style: style.merge(this.getPosition())
+        style: style.merge({ ...this.getPosition() })
       })
     }
   }
@@ -105,6 +105,7 @@ const calculatePosition = (pos: TooltipPosition, trigger: Map<string, number>, t
   let left = 0
 
   const triggerTop = trigger.get('top') + window.pageYOffset
+  const triggerLeft = trigger.get('left') + window.pageXOffset
 
   // Top
   switch (pos) {
@@ -126,14 +127,14 @@ const calculatePosition = (pos: TooltipPosition, trigger: Map<string, number>, t
     case 'left':
     case 'bottom-left':
     case 'top-left': {
-      left = (trigger.get('left')) - tooltip.get('width')
+      left = triggerLeft - tooltip.get('width')
       break
     }
 
     case 'right': 
     case 'bottom-right':
     case 'top-right': {
-      left = (trigger.get('left')) + trigger.get('width')
+      left = triggerLeft + trigger.get('width')
       break
     }
   }

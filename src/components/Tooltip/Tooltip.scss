@@ -1,4 +1,7 @@
+@import "../../sass/config";
+
 @mixin tooltip-base {
+  display: flex;
   font-size: 12px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   line-height: 1.4;
@@ -50,7 +53,6 @@
 
 .tooltip {
   @include tooltip-base;
-  display: flex;
 
   &--inline {
     display: inline-block;
@@ -82,4 +84,13 @@
       margin-bottom: 2px;
     }
   }
+}
+
+#tooltip-root {
+  position: absolute;
+  z-index: $z-index-tooltips;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  pointer-events: none;
 }

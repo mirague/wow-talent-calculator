@@ -43,7 +43,7 @@ export const TalentTree: React.FC<Props> = ({ specId, knownTalents, availablePoi
             <Trigger>
               <div className="tree__reset" onClick={handleResetSpec}>x</div>
             </Trigger>
-            <Tooltip>Reset spec</Tooltip>
+            <Tooltip><span className="green">Reset points in {specNames[specId]}</span></Tooltip>
           </Controller>
         }
       </div>
