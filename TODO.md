@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Fix: Initial load `pointString` validation (make sure all talents are valid and their deps are met)
 - [ ] Fix: Tooltips cause horizontal scroll on less-wide screens. Investigate.
 
 - [ ] Responsiveness:

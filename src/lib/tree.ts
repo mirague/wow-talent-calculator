@@ -241,9 +241,14 @@ export function decodeKnownTalents(pointString: string, classId: number): Map<nu
       if (points > talent.ranks.length) {
         break
       }
-      
-      if (points > 0) {
-        known = known.set(talent.id, points)
+
+      // Step through each point and see that we can assign it
+      for (let p = 0; p < points; p++) {
+        if (canLearnTalent(known, talent)) {
+          known = known.set(talent.id, p + 1)
+        } else {
+          break
+        }
       }
     }
   }
