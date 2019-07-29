@@ -1,0 +1,16 @@
+.home {
+  &__class-picker {
+    margin: 2em 0;
+    transform: translateY(0);
+    
+    &--highlight {
+      transition: all .4s ease-out;
+      transform: translateY(35vh);
+    }
+  }
+
+  &__class-picker-title {
+    text-align: center;
+    margin-bottom: 2em;
+  }
+}

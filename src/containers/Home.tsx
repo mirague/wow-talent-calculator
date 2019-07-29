@@ -1,3 +1,4 @@
+import './Home.scss'
 import React from 'react'
 import { connect } from 'react-redux'
 import { match } from 'react-router-dom'
@@ -9,6 +10,7 @@ import { AppState } from '../store'
 import { setClass, setPoints } from '../store/calculator/actions'
 import { Points } from '../store/calculator/types'
 import { decodeKnownTalents, encodeKnownTalents } from '../lib/tree'
+import classNames from 'classnames'
 
 interface Props extends RouteComponentProps {
   match: match<{ 
@@ -88,13 +90,21 @@ export class Home extends React.PureComponent<Props> {
       return null
     }
 
+    const classPickerCn = classNames('home__class-picker', { 
+      'home__class-picker--highlight': !selectedClass
+    })
+
     return (
-      <div className="container index">
-        <ClassPicker 
-          className="index__class-picker"
-          center 
-          selected={selectedClass} 
-        />
+      <div className="container home">
+        <div className={classPickerCn}>
+          {!selectedClass &&
+            <h3 className="home__class-picker-title">Choose your class</h3>
+          }
+          <ClassPicker
+            center 
+            selected={selectedClass} 
+          />
+        </div>
   
         {currentClass && 
           <Calculator 

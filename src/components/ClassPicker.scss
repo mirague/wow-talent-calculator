@@ -16,6 +16,10 @@
       opacity: 1;
     }
 
+    &:last-child {
+      margin-right: 0;
+    }
+
     &--active {
       opacity: 1;
     }
