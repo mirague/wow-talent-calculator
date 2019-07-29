@@ -1,6 +1,8 @@
 # TODO
 
 - [ ] Fix: Tooltips cause horizontal scroll on less-wide screens. Investigate.
+- [ ] Fix: Tooltip flicker on page load, initially positioned in the top left
+- [ ] Fix: Tooltips positioned incorrectly after animating back to Home
 
 - [ ] Move routing logic from `Home` into `Calculator`
 - [ ] Responsiveness:
