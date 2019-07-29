@@ -12,6 +12,7 @@ export const SET_CLASS = 'SET_CLASS'
 export const ADD_POINT = 'ADD_POINT'
 export const REMOVE_POINT = 'REMOVE_POINT'
 export const SET_POINTS = 'SET_POINTS'
+export const RESET_SPEC = 'RESET_SPEC'
 
 interface SetClassAction {
   type: typeof SET_CLASS
@@ -34,5 +35,10 @@ interface SetPointsAction {
   points: Points
 }
 
+interface ResetSpecAction {
+  type: typeof RESET_SPEC
+  specId: number
+}
+
 export type CalculatorActionTypes = SetClassAction | AddPointAction | RemovePointAction | 
-  SetPointsAction
+  SetPointsAction | ResetSpecAction

@@ -1,7 +1,7 @@
 import './Calculator.scss'
 import React from 'react'
 import { Map } from 'immutable'
-import { TalentTree } from './TalentTree'
+import TalentTree from './TalentTree'
 import { calcAvailablePoints } from '../lib/tree'
 import { classById } from '../data/classes'
 import { Link } from 'react-router-dom';

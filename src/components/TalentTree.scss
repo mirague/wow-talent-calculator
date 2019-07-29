@@ -43,6 +43,14 @@
     }
   }
 
+  &__reset {
+    position: absolute;
+    top: 1em;
+    right: .5em;
+    cursor: pointer;
+    color: lighten(red, 20%)
+  }
+
   &__body {
     position: relative;
     height: 520px;

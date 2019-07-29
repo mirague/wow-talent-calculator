@@ -5,10 +5,11 @@ import {
   SET_CLASS, 
   ADD_POINT, 
   REMOVE_POINT, 
-  SET_POINTS
+  SET_POINTS,
+  RESET_SPEC
 } from './types'
 import { canLearnTalent, canUnlearnTalent, encodeKnownTalents } from '../../lib/tree'
-import { talentsById } from '../../data/talents'
+import { talentsById, talentsBySpec } from '../../data/talents'
 
 const initialState: CalculatorState = {
   classId: null,
@@ -67,6 +68,15 @@ export default function(state = initialState, action: CalculatorActionTypes): Ca
       return {
         ...state,
         points: action.points
+      }
+    }
+
+    case RESET_SPEC: {
+      const resetIds = Object.values(talentsBySpec[action.specId]).map((t) => t.id)
+      const nextPoints = points.filter((_, id) => resetIds.indexOf(id) === -1)
+      return {
+        ...state,
+        points: nextPoints
       }
     }
 
