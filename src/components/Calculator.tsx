@@ -4,7 +4,6 @@ import { Map } from 'immutable'
 import TalentTree from './TalentTree'
 import { calcAvailablePoints } from '../lib/tree'
 import { classById } from '../data/classes'
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addPoint, removePoint } from '../store/calculator/actions'
 import { Points } from '../store/calculator/types'

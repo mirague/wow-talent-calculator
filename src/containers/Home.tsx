@@ -41,7 +41,7 @@ export class Home extends React.PureComponent<Props> {
     if (prevParams.selectedClass !== params.selectedClass) {
       // Class changed in route
       this.loadFromUrlParams()
-    } else {
+    } else if (this.props.classId) {
       // Changes within same class
       if (prevParams.pointString !== params.pointString) {
         // Same class but point string changed
@@ -49,11 +49,11 @@ export class Home extends React.PureComponent<Props> {
         if (!this.props.points.equals(decoded)) {
           this.props.setPoints(decoded)
         }
-      } else if (prevProps.points !== this.props.points && this.props.classId) {
+      } else if (prevProps.points !== this.props.points) {
         // Points map changed, update the URL
         this.updateURL(this.props.points)
       }
-    } 
+    }
   }
 
   componentWillUnmount() {
@@ -95,23 +95,25 @@ export class Home extends React.PureComponent<Props> {
     })
 
     return (
-      <div className="container home">
-        <div className={classPickerCn}>
-          {!selectedClass &&
-            <h3 className="home__class-picker-title">Choose your class</h3>
+      <div className="home">
+        <div className="container">
+          <div className={classPickerCn}>
+            {!selectedClass &&
+              <h3 className="home__class-picker-title">Choose your class</h3>
+            }
+            <ClassPicker
+              center 
+              selected={selectedClass} 
+            />
+          </div>
+    
+          {currentClass && 
+            <Calculator 
+              classId={classId}
+              points={this.props.points}
+            />
           }
-          <ClassPicker
-            center 
-            selected={selectedClass} 
-          />
         </div>
-  
-        {currentClass && 
-          <Calculator 
-            classId={classId}
-            points={this.props.points}
-          />
-        }
       </div>
     )
   }

@@ -1,4 +1,19 @@
 .home {
+  min-height: 85vh;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../images/home-bg.jpg');
+    background-size: cover;
+    opacity: .05;
+    z-index: -1;
+  }
+
   &__class-picker {
     margin: 2em 0;
     transform: translateY(0);
