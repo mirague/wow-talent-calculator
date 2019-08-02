@@ -28,6 +28,7 @@ export class Controller extends React.PureComponent<Props> {
       position: 'absolute' as 'absolute',
       left: 0,
       top: 0,
+      opacity: 0,
     }),
     triggerRect: Map({
       left: 0,
@@ -38,11 +39,13 @@ export class Controller extends React.PureComponent<Props> {
   }
 
   handleMouseEnter = () => {
+    // TODO: cache this even for url transition (?), it's "expensive" and triggers reflow
+    const { width, height, top, left } = (ReactDOM.findDOMNode(this.trigger.current) as HTMLElement).getBoundingClientRect()
+
     this.setState({ 
       isVisible: true,
-      style: this.state.style.merge(this.getPosition())
+      triggerRect: this.state.triggerRect.merge({ width, height, top, left })
     })
-    
   }
 
   handleMouseLeave = () => {
@@ -54,21 +57,22 @@ export class Controller extends React.PureComponent<Props> {
       const { width, height } = (ReactDOM.findDOMNode(this.tooltip.current) as HTMLElement).getBoundingClientRect()
       const { style, tooltipDimensions } = this.state
 
+      const newTooltipDimensions = tooltipDimensions.merge({ width, height })
       this.setState({
-        tooltipDimensions: tooltipDimensions.merge({ width, height }),
-        style: style.merge({ ...this.getPosition() })
+        tooltipDimensions: newTooltipDimensions,
+        style: style.merge({ ...this.getPosition(newTooltipDimensions) })
       })
     }
   }
 
-  getPosition = (): { top: number, left: number } => {
-    const { tooltipDimensions, triggerRect } = this.state
-    return calculatePosition(this.props.position, triggerRect, tooltipDimensions)
+  getPosition = (tooltipDimensions = this.state.tooltipDimensions): { top: number, left: number } => {
+    return calculatePosition(this.props.position, this.state.triggerRect, tooltipDimensions)
   }
 
   updateTriggerRect = (triggerRect: { left: number, top: number, width: number, height: number }) => {
     this.setState({
-      triggerRect: this.state.triggerRect.merge(triggerRect)
+      triggerRect: this.state.triggerRect.merge(triggerRect),
+      style: this.state.style.set('opacity', 1)
     })
   }
 
@@ -158,5 +162,3 @@ const calculatePosition = (pos: TooltipPosition, trigger: Map<string, number>, t
 
   return { top, left }
 }
-
-

@@ -99,7 +99,7 @@ export class Home extends React.PureComponent<Props> {
         <div className="container">
           <div className={classPickerCn}>
             {!selectedClass &&
-              <h3 className="home__class-picker-title">Choose your class</h3>
+              <h3 className="home__class-picker-title">Choose a class</h3>
             }
             <ClassPicker
               center 
