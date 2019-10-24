@@ -29,6 +29,8 @@ const App: React.FC = () => {
           <Link to="/">Home</Link>
           {' - '}
           <Link to="/playground">Components</Link>
+          {' - '}
+          <Link to="https://github.com/mirague/wow-talent-calculator" target="_blank">Source</Link>
         </footer>
       </div>
     </Router>
