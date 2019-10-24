@@ -12,6 +12,11 @@
 - [Immutable.js](https://immutable-js.github.io/immutable-js/docs)
 - Using functional components with [Hooks](https://reactjs.org/docs/hooks-intro.html) whenever possible
 
+## Todo
+Checkout [TODO.md](TODO.md)
+
+--- 
+
 ## Available Scripts
 
 In the project directory, you can run:
